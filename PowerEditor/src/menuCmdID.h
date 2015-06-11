@@ -563,6 +563,9 @@
     #define    IDM_LANG_GOLANG             (IDM_LANG + 89)
     #define    IDM_LANG_RAKU               (IDM_LANG + 90)
     #define    IDM_LANG_TOML               (IDM_LANG + 91)
+    #define    IDM_LANG_PO                 (IDM_LANG + 92)
+    #define    IDM_LANG_POV                (IDM_LANG + 93)
+
     
     #define    IDM_LANG_EXTERNAL           (IDM_LANG + 165)
     #define    IDM_LANG_EXTERNAL_LIMIT     (IDM_LANG + 179)
