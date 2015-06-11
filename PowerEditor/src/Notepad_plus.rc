@@ -1043,7 +1043,9 @@ BEGIN
         MENUITEM "Pascal",                  IDM_LANG_PASCAL
         MENUITEM "Perl",                    IDM_LANG_PERL
         MENUITEM "PHP",                     IDM_LANG_PHP
+        MENUITEM "PO",                      IDM_LANG_PO
         MENUITEM "PostScript",              IDM_LANG_PS
+        MENUITEM "POV Ray",                 IDM_LANG_POV
         MENUITEM "PowerShell",              IDM_LANG_POWERSHELL
         MENUITEM "Properties",              IDM_LANG_PROPS
         MENUITEM "Purebasic",               IDM_LANG_PUREBASIC
@@ -1189,7 +1191,9 @@ BEGIN
         MENUITEM "Pascal",                IDM_LANG_PASCAL
         MENUITEM "Perl",                  IDM_LANG_PERL
         MENUITEM "PHP",                   IDM_LANG_PHP
+        MENUITEM "PO",                    IDM_LANG_PO
         MENUITEM "PostScript",            IDM_LANG_PS
+        MENUITEM "POV Ray",               IDM_LANG_POV
         MENUITEM "PowerShell",            IDM_LANG_POWERSHELL
         MENUITEM "Properties",            IDM_LANG_PROPS
         MENUITEM "Purebasic",             IDM_LANG_PUREBASIC

@@ -1207,6 +1207,14 @@ protected:
 		setLexer(L_REGISTRY, LIST_NONE); 
 	};
 
+	void setPOLexer() {
+		setLexer(L_PO, LIST_NONE);
+	};
+
+	void setPOVLexer() {
+		setLexer(L_POV, LIST_0 | LIST_1 | LIST_2 | LIST_3 | LIST_4 | LIST_5 | LIST_6);
+	};
+
 	void setRustLexer() {
 		setLexer(L_RUST, LIST_0 | LIST_1 | LIST_2 | LIST_3 | LIST_4 | LIST_5 | LIST_6); 
 		execute(SCI_SETWORDCHARS, 0, reinterpret_cast<LPARAM>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_#"));

@@ -3755,6 +3755,8 @@ void Notepad_plus::command(int id)
 		case IDM_LANG_TOML:
 		case IDM_LANG_SAS:
 		case IDM_LANG_ERRORLIST:
+		case IDM_LANG_PO:
+		case IDM_LANG_POV:
 		case IDM_LANG_USER :
 		{
 			LangType lang = menuID2LangType(id);
