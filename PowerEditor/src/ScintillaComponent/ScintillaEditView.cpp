@@ -199,7 +199,9 @@ LanguageNameInfo ScintillaEditView::_langNameInfoArray[L_EXTERNAL + 1] = {
 	{L"sas",              L"SAS",                    L"SAS file",                                          L_SAS,             "sas"},
 	{L"errorlist",        L"ErrorList",              L"ErrorList file",                                    L_ERRORLIST,       "errorlist"},
 	{L"escseq",           L"EscapeSequence (ANSI)",  L"Escape Sequence (ANSI) file",                       L_ESCSEQ,          "escseq"},
-	{L"fcST",             L"Structured Text",         L"IEC 61131-3 Structured Text file",                  L_STTXT,           "fcST"},
+	{L"fcST",             L"Structured Text",        L"IEC 61131-3 Structured Text file",                  L_STTXT,           "fcST"},
+	{L"po",               L"PO",                     L"PO translation file",                               L_PO,              "po"},
+	{L"pov",              L"POV",                    L"POV raytracing file",                               L_POV,             "pov"},
 	{L"ext",              L"External",               L"External",                                          L_EXTERNAL,        "null"}
 };
 
@@ -2095,6 +2097,12 @@ void ScintillaEditView::defineDocType(LangType typeDoc)
 
 		case L_OSCRIPT :
 			setOScriptLexer(); break;
+
+		case L_PO:
+			setPOLexer(); break;
+
+		case L_POV:
+			setPOVLexer(); break;
 
 		case L_REBOL :
 			setREBOLLexer(); break;
