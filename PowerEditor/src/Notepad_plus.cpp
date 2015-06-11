@@ -4053,13 +4053,17 @@ LangType Notepad_plus::menuID2LangType(int cmdID)
         case IDM_LANG_GDSCRIPT:
             return L_GDSCRIPT;
         case IDM_LANG_HOLLYWOOD:
-            return L_HOLLYWOOD;	    
+            return L_HOLLYWOOD;
         case IDM_LANG_GOLANG:
             return L_GOLANG;
         case IDM_LANG_RAKU:
             return L_RAKU;
         case IDM_LANG_TOML:
             return L_TOML;
+		case IDM_LANG_PO:
+			return L_PO;
+		case IDM_LANG_POV:
+			return L_POV;
         case IDM_LANG_USER:
             return L_USER;
 		default:
