@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NotepadPlus>
+	<functionList>
+		<parser id="tex_function" displayName="TEX Syntax" commentExpr="(%.*?$)">
+				<function
+					mainExpr="^[\t ]*//begin/\{.*}"
+					displayMode="$functionName">
+					<functionName>
+						<nameExpr expr="*"/>
+					</functionName>
+				</function>
+			</parser>
+	</functionList>
+</NotepadPlus>

@@ -3763,6 +3763,8 @@ void Notepad_plus::command(int id)
 		case IDM_LANG_TYPESCRIPT:
 		case IDM_LANG_GDSCRIPT:
 		case IDM_LANG_HOLLYWOOD:
+		case IDM_LANG_PO:
+		case IDM_LANG_POV:
 		case IDM_LANG_USER :
 		{
             setLanguage(menuID2LangType(id));

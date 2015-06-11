@@ -146,6 +146,8 @@ LanguageNameInfo ScintillaEditView::_langNameInfoArray[L_EXTERNAL + 1] = {
 	{TEXT("nim"),			TEXT("Nim"),				TEXT("Nim file"),										L_NIM,			"nimrod"},
 	{TEXT("nncrontab"),		TEXT("Nncrontab"),			TEXT("extended crontab file"),							L_NNCRONTAB,	"nncrontab"},
 	{TEXT("oscript"),		TEXT("OScript"),			TEXT("OScript source file"),							L_OSCRIPT,		"oscript"},
+	{TEXT("po"),			TEXT("PO"),					TEXT("PO translation file"),							L_PO,			"po"},
+	{TEXT("pov"),			TEXT("POV"),				TEXT("POV raytracing file"),							L_POV,			"pov"},
 	{TEXT("rebol"),			TEXT("REBOL"),				TEXT("REBOL file"),										L_REBOL,		"rebol"},
 	{TEXT("registry"),		TEXT("registry"),			TEXT("registry file"),									L_REGISTRY,		"registry"},
 	{TEXT("rust"),			TEXT("Rust"),				TEXT("Rust file"),										L_RUST,			"rust"},
@@ -1963,6 +1965,12 @@ void ScintillaEditView::defineDocType(LangType typeDoc)
 
 		case L_OSCRIPT :
 			setOScriptLexer(); break;
+
+		case L_PO:
+			setPOLexer(); break;
+
+		case L_POV:
+			setPOVLexer(); break;
 
 		case L_REBOL :
 			setREBOLLexer(); break;
