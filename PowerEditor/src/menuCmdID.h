@@ -574,6 +574,8 @@
     #define    IDM_LANG_ERRORLIST          (IDM_LANG + 93)
     #define    IDM_LANG_ESCSEQ             (IDM_LANG + 94)
     #define    IDM_LANG_STTXT              (IDM_LANG + 95)
+    #define    IDM_LANG_PO                 (IDM_LANG + 96)
+    #define    IDM_LANG_POV                (IDM_LANG + 97)
 
     #define    IDM_LANG_EXTERNAL           (IDM_LANG + 165)
     #define    IDM_LANG_EXTERNAL_LIMIT     (IDM_LANG + 179)
