@@ -68,6 +68,7 @@
 
 #include <assert.h>
 #include <tchar.h>
+#include <array>
 
 class NativeLangSpeaker;
 
@@ -979,7 +980,7 @@ public:
 		_isCaseIgnored = false;
 
 		for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
-			*_keywordLists[i] = '\0';
+			_keywordLists[i] = L'\0';
 
 		for (int i = 0 ; i < SCE_USER_TOTAL_KEYWORD_GROUPS ; ++i)
 			_isPrefix[i] = false;
@@ -993,7 +994,7 @@ public:
 		_foldCompact = false;
 
 		for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
-			*_keywordLists[i] = '\0';
+			_keywordLists[i] = L'\0';
 
 		for (int i = 0 ; i < SCE_USER_TOTAL_KEYWORD_GROUPS ; ++i)
 			_isPrefix[i] = false;
@@ -1023,7 +1024,7 @@ public:
 			}
 
 			for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
-				lstrcpy(this->_keywordLists[i], ulc._keywordLists[i]);
+				this->_keywordLists[i] = ulc._keywordLists[i];
 
 			for (int i = 0 ; i < SCE_USER_TOTAL_KEYWORD_GROUPS ; ++i)
 				_isPrefix[i] = ulc._isPrefix[i];
@@ -1043,7 +1044,7 @@ private:
 	generic_string _udlVersion;
 
 	//TCHAR _keywordLists[nbKeywodList][max_char];
-	TCHAR _keywordLists[SCE_USER_KWLIST_TOTAL][max_char];
+	std::array<generic_string, SCE_USER_KWLIST_TOTAL> _keywordLists;
 	bool _isPrefix[SCE_USER_TOTAL_KEYWORD_GROUPS];
 
 	bool _isCaseIgnored;

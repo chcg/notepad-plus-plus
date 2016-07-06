@@ -707,7 +707,7 @@ void ScintillaEditView::setUserLexer(const TCHAR *userLangName)
 	for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
 	{
 		WcharMbcsConvertor *wmc = WcharMbcsConvertor::getInstance();
-		const char * keyWords_char = wmc->wchar2char(userLangContainer->_keywordLists[i], codepage);
+		const char * keyWords_char = wmc->wchar2char(userLangContainer->_keywordLists[i].c_str(), codepage);
 
 		if (globalMappper().setLexerMapper.find(i) != globalMappper().setLexerMapper.end())
 		{
@@ -720,7 +720,7 @@ void ScintillaEditView::setUserLexer(const TCHAR *userLangName)
 			bool inSingleQuote = false;
 			bool nonWSFound = false;
 			int index = 0;
-			for (size_t j=0, len = strlen(keyWords_char); j<len; ++j)
+			for (size_t j=0, len = strlen(keyWords_char); j<len && index < (max_char-1); ++j)
 			{
 				if (!inSingleQuote && keyWords_char[j] == '"')
 				{

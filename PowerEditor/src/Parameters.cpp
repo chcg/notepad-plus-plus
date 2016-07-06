@@ -3132,7 +3132,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				temp += TEXT(" 08");	if (kwl[5] != '0') temp += kwl[5];
 
 				temp += TEXT(" 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23");
-				lstrcpy(_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_DELIMITERS], temp.c_str());
+				_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_DELIMITERS] = temp;
 			}
 			else if (!lstrcmp(keywordsName, TEXT("Comment")))
 			{
@@ -3166,7 +3166,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				if (temp[0] == ' ')
 					temp.erase(0, 1);
 
-				lstrcpy(_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_COMMENTS], temp.c_str());
+				_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_COMMENTS] = temp;
 			}
 			else
 			{
@@ -3174,7 +3174,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				if (globalMappper().keywordIdMapper.find(keywordsName) != globalMappper().keywordIdMapper.end())
 				{
 					id = globalMappper().keywordIdMapper[keywordsName];
-					lstrcpy(_userLangArray[_nbUserLang - 1]->_keywordLists[id], kwl);
+					_userLangArray[_nbUserLang - 1]->_keywordLists[id] = kwl;
 				}
 			}
 		}

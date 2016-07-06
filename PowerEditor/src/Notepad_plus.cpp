@@ -3767,12 +3767,12 @@ void Notepad_plus::showFunctionComp()
 	autoC->showFunctionComplete();
 }
 
-static generic_string extractSymbol(TCHAR firstChar, TCHAR secondChar, const TCHAR *str2extract)
+static generic_string extractSymbol(TCHAR firstChar, TCHAR secondChar, const generic_string str2extract)
 {
 	bool found = false;
 	TCHAR extracted[128] = TEXT("");
 
-	for (size_t i = 0, j = 0, len = lstrlen(str2extract) ; i < len ; ++i)
+	for (size_t i = 0, j = 0, len = str2extract.size() ; i < len ; ++i)
 	{
 		if (found)
 		{
