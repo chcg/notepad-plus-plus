@@ -1103,7 +1103,7 @@ private:
 	std::wstring _ext;
 	std::string _udlVersion;
 
-	std::string _keywordLists[SCE_USER_KWLIST_TOTAL];
+	std::array<std::string, SCE_USER_KWLIST_TOTAL> _keywordLists;
 	bool _isPrefix[SCE_USER_TOTAL_KEYWORD_GROUPS] = { false };
 
 	int  _forcePureLC = PURE_LC_NONE;

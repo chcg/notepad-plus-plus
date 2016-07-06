@@ -4892,14 +4892,7 @@ void NppParameters::feedUserKeywordList(const NppXml::Element& element)
 				if (globalMappper().keywordIdMapper.find(keywordsName) != globalMappper().keywordIdMapper.end())
 				{
 					int id = globalMappper().keywordIdMapper[keywordsName];
-					if (std::strlen(kwl) < max_char)
-					{
-						_userLangArray[_nbUserLang - 1]->_keywordLists[id] = kwl;
-					}
-					else
-					{
-						_userLangArray[_nbUserLang - 1]->_keywordLists[id] = "imported string too long, needs to be < max_char(30720)";
-					}
+					_userLangArray[_nbUserLang - 1]->_keywordLists[id] = kwl;
 				}
 			}
 		}

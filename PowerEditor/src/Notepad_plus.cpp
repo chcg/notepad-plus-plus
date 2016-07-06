@@ -5360,13 +5360,13 @@ void Notepad_plus::showFunctionNextHint(bool isNext)
 		autoC->callTipClick(1);
 }
 
-static std::string extractSymbol(char firstChar, char secondChar, const char* str2extract)
+static std::string extractSymbol(char firstChar, char secondChar, const std::string str2extract)
 {
 	bool found = false;
 	static constexpr size_t extractedLen = 128;
 	char extracted[extractedLen] = { '\0' };
 
-	for (size_t i = 0, j = 0, len = std::strlen(str2extract); i < len && j < extractedLen - 1; ++i)
+	for (size_t i = 0, j = 0, len = str2extract.size() ; i < len && j < extractedLen - 1; ++i)
 	{
 		if (found)
 		{
