@@ -5111,13 +5111,13 @@ void Notepad_plus::showFunctionNextHint(bool isNext)
 		autoC->callTipClick(1);
 }
 
-static generic_string extractSymbol(TCHAR firstChar, TCHAR secondChar, const TCHAR *str2extract)
+static generic_string extractSymbol(TCHAR firstChar, TCHAR secondChar, const generic_string str2extract)
 {
 	bool found = false;
 	const size_t extractedLen = 128;
 	TCHAR extracted[extractedLen] = {'\0'};
 
-	for (size_t i = 0, j = 0, len = lstrlen(str2extract) ; i < len && j < extractedLen - 1; ++i)
+	for (size_t i = 0, j = 0, len = str2extract.size() ; i < len && j < extractedLen - 1; ++i)
 	{
 		if (found)
 		{
