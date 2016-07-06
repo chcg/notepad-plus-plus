@@ -29,6 +29,7 @@
 #include "NppDarkMode.h"
 #include <assert.h>
 #include <tchar.h>
+#include <array>
 #include <map>
 #include <array>
 #include <shlwapi.h>
@@ -1123,12 +1124,12 @@ class UserLangContainer final
 {
 public:
 	UserLangContainer() :_name(L"new user define"), _ext(L""), _udlVersion(L"") {
-		for (int i = 0; i < SCE_USER_KWLIST_TOTAL; ++i) *_keywordLists[i] = '\0';
+		for (int i = 0; i < SCE_USER_KWLIST_TOTAL; ++i) _keywordLists[i] = L'\0';
 	}
 
 	UserLangContainer(const wchar_t *name, const wchar_t *ext, bool isDarkModeTheme, const wchar_t *udlVer):
 		_name(name), _ext(ext), _isDarkModeTheme(isDarkModeTheme), _udlVersion(udlVer) {
-		for (int i = 0; i < SCE_USER_KWLIST_TOTAL; ++i) *_keywordLists[i] = '\0';
+		for (int i = 0; i < SCE_USER_KWLIST_TOTAL; ++i) _keywordLists[i] = L'\0';
 	}
 
 	UserLangContainer & operator = (const UserLangContainer & ulc)
@@ -1154,7 +1155,7 @@ public:
 			}
 
 			for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
-				wcscpy_s(this->_keywordLists[i], ulc._keywordLists[i]);
+				this->_keywordLists[i] = ulc._keywordLists[i];
 
 			for (int i = 0 ; i < SCE_USER_TOTAL_KEYWORD_GROUPS ; ++i)
 				_isPrefix[i] = ulc._isPrefix[i];
@@ -1173,7 +1174,7 @@ private:
 	bool _isDarkModeTheme = false;
 	std::wstring _udlVersion;
 
-	wchar_t _keywordLists[SCE_USER_KWLIST_TOTAL][max_char];
+	std::array<std::wstring, SCE_USER_KWLIST_TOTAL> _keywordLists;
 	bool _isPrefix[SCE_USER_TOTAL_KEYWORD_GROUPS] = {false};
 
 	bool _isCaseIgnored = false;

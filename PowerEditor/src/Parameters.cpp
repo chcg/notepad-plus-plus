@@ -3986,7 +3986,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				temp += L" 08";	if (kwl[5] != '0') temp += kwl[5];
 
 				temp += L" 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23";
-				wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_DELIMITERS], temp.c_str());
+				_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_DELIMITERS] = temp;
 			}
 			else if (!lstrcmp(keywordsName, L"Comment"))
 			{
@@ -4019,7 +4019,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				if (temp[0] == ' ')
 					temp.erase(0, 1);
 
-				wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_COMMENTS], temp.c_str());
+				_userLangArray[_nbUserLang - 1]->_keywordLists[SCE_USER_KWLIST_COMMENTS] = temp;
 			}
 			else
 			{
@@ -4027,14 +4027,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
 				if (globalMappper().keywordIdMapper.find(keywordsName) != globalMappper().keywordIdMapper.end())
 				{
 					int id = globalMappper().keywordIdMapper[keywordsName];
-					if (wcslen(kwl) < max_char)
-					{
-						wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[id], kwl);
-					}
-					else
-					{
-						wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[id], L"imported string too long, needs to be < max_char(30720)");
-					}
+					_userLangArray[_nbUserLang - 1]->_keywordLists[id] = kwl;
 				}
 			}
 		}

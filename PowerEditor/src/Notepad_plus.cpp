@@ -5206,13 +5206,13 @@ void Notepad_plus::showFunctionNextHint(bool isNext)
 		autoC->callTipClick(1);
 }
 
-static wstring extractSymbol(wchar_t firstChar, wchar_t secondChar, const wchar_t *str2extract)
+static wstring extractSymbol(wchar_t firstChar, wchar_t secondChar, const wstring str2extract)
 {
 	bool found = false;
 	const size_t extractedLen = 128;
 	wchar_t extracted[extractedLen] = {'\0'};
 
-	for (size_t i = 0, j = 0, len = lstrlen(str2extract) ; i < len && j < extractedLen - 1; ++i)
+	for (size_t i = 0, j = 0, len = str2extract.size() ; i < len && j < extractedLen - 1; ++i)
 	{
 		if (found)
 		{

@@ -223,7 +223,7 @@ void FolderStyleDialog::setKeywords2List(int id)
         case IDC_FOLDER_IN_COMMENT_OPEN_EDIT :   
         case IDC_FOLDER_IN_COMMENT_MIDDLE_EDIT : 
         case IDC_FOLDER_IN_COMMENT_CLOSE_EDIT :  
-            ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[globalMappper().dialogMapper[id]], max_char);
+            ::GetDlgItemText(_hSelf, id, const_cast<TCHAR *>(_pUserLang->_keywordLists[globalMappper().dialogMapper[id]].c_str()), max_char);
             break;
     }
 }
@@ -232,15 +232,15 @@ void FolderStyleDialog::updateDlg()
 {
     ::SendDlgItemMessage(_hSelf, IDC_FOLDER_FOLD_COMPACT,           BM_SETCHECK, _pUserLang->_foldCompact, 0);
 
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_OPEN_EDIT,     WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_OPEN]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_MIDDLE_EDIT,   WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_MIDDLE]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_CLOSE_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_CLOSE]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_OPEN_EDIT,     WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_OPEN]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_MIDDLE_EDIT,   WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_MIDDLE]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_CLOSE_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_CLOSE]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_OPEN_EDIT,   WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_OPEN]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_MIDDLE_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_MIDDLE]));
-    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_CLOSE_EDIT,  WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_CLOSE]));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_OPEN_EDIT,     WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_OPEN].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_MIDDLE_EDIT,   WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_MIDDLE].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE1_CLOSE_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE1_CLOSE].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_OPEN_EDIT,     WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_OPEN].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_MIDDLE_EDIT,   WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_MIDDLE].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_CODE2_CLOSE_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_CODE2_CLOSE].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_OPEN_EDIT,   WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_OPEN].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_MIDDLE_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_MIDDLE].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_CLOSE_EDIT,  WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_CLOSE].c_str()));
 }
 
 void FolderStyleDialog::retrieve(wchar_t *dest, const wchar_t *toRetrieve, wchar_t *prefix) const
@@ -386,20 +386,20 @@ void KeyWordsStyleDialog::setKeywords2List(int id)
         case IDC_KEYWORD6_EDIT :
         case IDC_KEYWORD7_EDIT :
         case IDC_KEYWORD8_EDIT :
-            ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[globalMappper().dialogMapper[id]], max_char);
+            ::GetDlgItemText(_hSelf, id, const_cast<TCHAR *>(_pUserLang->_keywordLists[globalMappper().dialogMapper[id]].c_str()), max_char);
     }
 }
 
 void KeyWordsStyleDialog::updateDlg()
 {
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD1_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS1]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD2_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS2]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD3_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS3]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD4_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS4]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD5_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS5]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD6_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS6]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD7_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS7]));
-    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD8_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS8]));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD1_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS1].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD2_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS2].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD3_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS3].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD4_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS4].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD5_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS5].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD6_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS6].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD7_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS7].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_KEYWORD8_EDIT, WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_KEYWORDS8].c_str()));
 
     ::SendDlgItemMessage(_hSelf, IDC_KEYWORD1_PREFIX_CHECK, BM_SETCHECK, _pUserLang->_isPrefix[0], 0);
     ::SendDlgItemMessage(_hSelf, IDC_KEYWORD2_PREFIX_CHECK, BM_SETCHECK, _pUserLang->_isPrefix[1], 0);
@@ -509,7 +509,7 @@ void CommentStyleDialog::setKeywords2List(int id)
         case IDC_NUMBER_SUFFIX2_EDIT :
         case IDC_NUMBER_RANGE_EDIT :  
         {
-            ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[globalMappper().dialogMapper[id]], max_char);
+            ::GetDlgItemText(_hSelf, id, const_cast<TCHAR *>(_pUserLang->_keywordLists[globalMappper().dialogMapper[id]].c_str()), max_char);
             break;
         }
 
@@ -545,7 +545,7 @@ void CommentStyleDialog::setKeywords2List(int id)
             convertTo(newList, max_char, buffer, intBuffer);
         }
 
-		wcscpy_s(_pUserLang->_keywordLists[index], newList);
+        _pUserLang->_keywordLists[index] = newList;
         delete[] newList;
         delete[] buffer;
     }
@@ -604,7 +604,7 @@ void CommentStyleDialog::updateDlg()
     for (int i = 0; static_cast<size_t>(i) < sizeof(list) / sizeof(int); ++i)
     {
         _itow(i, intBuffer + 1, 10);
-        retrieve(buffer, _pUserLang->_keywordLists[SCE_USER_KWLIST_COMMENTS], intBuffer);
+        retrieve(buffer, _pUserLang->_keywordLists[SCE_USER_KWLIST_COMMENTS].c_str(), intBuffer);
         ::SendDlgItemMessage(_hSelf, list[i], WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buffer));
     }
 
@@ -618,13 +618,13 @@ void CommentStyleDialog::updateDlg()
     ::SendDlgItemMessage(_hSelf, IDC_COMMA_RADIO,           BM_SETCHECK, _pUserLang->_decimalSeparator == DECSEP_COMMA,  0);
     ::SendDlgItemMessage(_hSelf, IDC_BOTH_RADIO,            BM_SETCHECK, _pUserLang->_decimalSeparator == DECSEP_BOTH,  0);
 
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_PREFIX1_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_PREFIX1]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_PREFIX2_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_PREFIX2]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_EXTRAS1_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_EXTRAS1]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_EXTRAS2_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_EXTRAS2]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_SUFFIX1_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_SUFFIX1]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_SUFFIX2_EDIT,    WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_SUFFIX2]));
-    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_RANGE_EDIT,      WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_RANGE]));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_PREFIX1_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_PREFIX1].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_PREFIX2_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_PREFIX2].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_EXTRAS1_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_EXTRAS1].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_EXTRAS2_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_EXTRAS2].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_SUFFIX1_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_SUFFIX1].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_SUFFIX2_EDIT,    WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_SUFFIX2].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_NUMBER_RANGE_EDIT,      WM_SETTEXT, 0, (LPARAM)(_pUserLang->_keywordLists[SCE_USER_KWLIST_NUMBER_RANGE].c_str()));
 
     delete[] buffer;
 }
@@ -668,14 +668,14 @@ void SymbolsStyleDialog::updateDlg()
         else
             _itow(i, intBuffer, 10);
 
-        retrieve(buffer, _pUserLang->_keywordLists[SCE_USER_KWLIST_DELIMITERS], intBuffer);
+        retrieve(buffer, _pUserLang->_keywordLists[SCE_USER_KWLIST_DELIMITERS].c_str(), intBuffer);
 		::SendDlgItemMessage(_hSelf, list[i], WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buffer));
     }
 
     delete[] buffer;
 
-    ::SendDlgItemMessage(_hSelf, IDC_OPERATOR1_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS1]));
-    ::SendDlgItemMessage(_hSelf, IDC_OPERATOR2_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS2]));
+    ::SendDlgItemMessage(_hSelf, IDC_OPERATOR1_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS1].c_str()));
+    ::SendDlgItemMessage(_hSelf, IDC_OPERATOR2_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS2].c_str()));
 }
 
 intptr_t CALLBACK SymbolsStyleDialog::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam)
@@ -791,10 +791,10 @@ void SymbolsStyleDialog::setKeywords2List(int id)
     switch (id)
     {
         case IDC_OPERATOR1_EDIT :
-            ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS1], max_char);
+            ::GetDlgItemText(_hSelf, id, const_cast<TCHAR *>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS1].c_str()), max_char);
             break;
         case IDC_OPERATOR2_EDIT :
-            ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS2], max_char);
+            ::GetDlgItemText(_hSelf, id, const_cast<TCHAR *>(_pUserLang->_keywordLists[SCE_USER_KWLIST_OPERATORS2].c_str()), max_char);
             break;
 
         case IDC_DELIMITER1_BOUNDARYOPEN_EDIT :
@@ -867,7 +867,7 @@ void SymbolsStyleDialog::setKeywords2List(int id)
                 convertTo(newList, max_char, buffer, intBuffer);
             }
 
-			wcscpy_s(_pUserLang->_keywordLists[SCE_USER_KWLIST_DELIMITERS], newList);
+            _pUserLang->_keywordLists[SCE_USER_KWLIST_DELIMITERS] = newList;
             delete[] newList;
             delete[] buffer;
             break;
