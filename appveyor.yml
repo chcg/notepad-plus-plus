@@ -42,4 +42,3 @@ build_script:
     - cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
     - make
 
-
