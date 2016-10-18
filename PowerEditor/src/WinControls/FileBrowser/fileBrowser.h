@@ -63,6 +63,9 @@
 //#define PM_MOVEDOWNENTRY           TEXT("Move Down\tCtrl+Down")
 
 class TiXmlNode;
+class FileBrowser;
+class FolderInfo;
+
 
 class FileInfo final
 {
