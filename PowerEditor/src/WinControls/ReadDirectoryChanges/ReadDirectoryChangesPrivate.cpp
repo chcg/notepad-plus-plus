@@ -29,6 +29,7 @@
 #include "ReadDirectoryChanges.h"
 #include "ReadDirectoryChangesPrivate.h"
 #include "Shlwapi.h"
+#include <assert.h> 
 
 
 // The namespace is a convenience to emphasize that these are internals
@@ -61,7 +62,7 @@ CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR sz
 CReadChangesRequest::~CReadChangesRequest()
 {
 	// RequestTermination() must have been called successfully.
-	_ASSERTE(m_hDirectory == NULL);
+	assert(m_hDirectory == NULL);
 }
 
 
