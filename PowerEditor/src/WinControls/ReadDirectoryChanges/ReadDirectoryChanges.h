@@ -41,10 +41,7 @@
 
 #include <windows.h>
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit
-
-#include <atlbase.h>
-#include <atlstr.h>
+#include "Common.h"  //for generic_string
 
 #include <vector>
 #include <list>
@@ -53,7 +50,7 @@ using namespace std;
 
 #include "ThreadSafeQueue.h"
 
-typedef pair<DWORD,CStringW> TDirectoryChangeNotification;
+typedef pair<DWORD, generic_string> TDirectoryChangeNotification;
 
 namespace ReadDirectoryChangesPrivate
 {
@@ -143,10 +140,10 @@ public:
 	/// </summary>
 	HANDLE GetWaitHandle() { return m_Notifications.GetWaitHandle(); }
 
-	bool Pop(DWORD& dwAction, CStringW& wstrFilename);
+	bool Pop(DWORD& dwAction, generic_string& wstrFilename);
 
 	// "Push" is for usage by ReadChangesRequest.  Not intended for external usage.
-	void Push(DWORD dwAction, CStringW& wstrFilename);
+	void Push(DWORD dwAction, generic_string& wstrFilename);
 
 	// Check if the queue overflowed. If so, clear it and return true.
 	bool CheckOverflow();

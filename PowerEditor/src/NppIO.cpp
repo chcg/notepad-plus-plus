@@ -81,13 +81,13 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 				// We've received a notification in the queue.
 			{
 				DWORD dwAction;
-				CStringW wstrFilename;
+				generic_string wstrFilename;
 				if (changes.CheckOverflow())
 					printStr(L"Queue overflowed.");
 				else
 				{
 					changes.Pop(dwAction, wstrFilename);
-					generic_string fn = wstrFilename.GetString();
+					generic_string fn = wstrFilename;
 
 					// Fix monitoring files which are under root problem
 					size_t pos = fn.find(TEXT("\\\\"));

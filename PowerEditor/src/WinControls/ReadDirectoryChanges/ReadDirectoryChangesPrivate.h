@@ -77,7 +77,7 @@ protected:
 	// Parameters from the caller for ReadDirectoryChangesW().
 	DWORD		m_dwFilterFlags;
 	BOOL		m_bIncludeChildren;
-	CStringW	m_wstrDirectory;
+	generic_string	m_wstrDirectory;
 
 	// Result of calling CreateFile().
 	HANDLE		m_hDirectory;
