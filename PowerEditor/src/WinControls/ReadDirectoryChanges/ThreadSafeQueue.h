@@ -32,6 +32,9 @@
 template <typename C>
 class CThreadSafeQueue : protected std::list<C>
 {
+
+	typedef std::list<C> super;
+
 public:
 	CThreadSafeQueue(int nMaxCount)
 	{
@@ -96,7 +99,7 @@ public:
 		for (DWORD i=0; i<size(); i++)
 			WaitForSingleObject(m_hSemaphore, 0);
 
-		__super::clear();
+		super::clear();
 
 		m_bOverflow = false;
 	}
