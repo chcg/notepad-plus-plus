@@ -55,7 +55,7 @@ build_script:
 
 
 - ps: |
-    if ($env:PLATFORM -eq "x64" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
+    if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
         if($env:CONFIGURATION -eq "Unicode Debug")
@@ -70,6 +70,7 @@ build_script:
         cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
         mingw32-make
     }
+    cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
     & cmake -G "$generator" ..
