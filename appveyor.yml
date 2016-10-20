@@ -57,12 +57,18 @@ build_script:
 - ps: |
     if ($env:PLATFORM -eq "x64" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
     {
-        - cd c:\projects\notepad-plus-plus\scintilla\win32
-        - if "%configuration%"=="Unicode Debug" set scintilla_debug=DEBUG=1
-        - if "%configuration%"=="Unicode Release" set scintilla_debug=
-        - mingw32-make
-        - cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        - mingw32-make
+        cd c:\projects\notepad-plus-plus\scintilla\win32
+        if($env:CONFIGURATION -eq "Unicode Debug")
+        {
+           set scintilla_debug=DEBUG=1
+        }
+        if($env:CONFIGURATION -eq "Unicode Release")
+        {
+           set scintilla_debug=
+        }
+        mingw32-make
+        cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+        mingw32-make
     }
     md _build -Force | Out-Null
     cd _build
