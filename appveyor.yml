@@ -6,9 +6,9 @@ clone_depth: 1
 
 environment:
   matrix:
-  #- PlatformToolset: v140_xp
-  #- PlatformToolset: v120_xp
-  - PlatformToolset: mingw-w64
+    #- PlatformToolset: v140_xp
+    - PlatformToolset: v120_xp
+    - PlatformToolset: mingw-w64
 
 
 platform:
@@ -35,11 +35,43 @@ install:
 build:
     verbosity: minimal
 
+before_build:
+- ps: |
+    Write-Output "Configuration: $env:CONFIGURATION"
+    Write-Output "Platform: $env:PLATFORM"
+    $generator = switch ($env:PLATFORMTOOLSET)
+    {
+        "v140_xp" {"Visual Studio 14 2015"}
+        "v120_xp" {"Visual Studio 12 2013"}
+        "mingw-w64" { "MinGW Makefiles"}
+    }
+    #not applicable with MinGW Makefiles generator
+    if ($env:PLATFORM -eq "x64" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
+    {
+        $generator = "$generator Win64"
+    }
+
 build_script:
-    - cd c:\projects\notepad-plus-plus\scintilla\win32
-    - if "%configuration%"=="Unicode Debug" set scintilla_debug=DEBUG=1
-    - if "%configuration%"=="Unicode Release" set scintilla_debug=
-    - mingw32-make
-    - cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-    - mingw32-make
+
+
+- ps: |
+    if ($env:PLATFORM -eq "x64" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
+    {
+        - cd c:\projects\notepad-plus-plus\scintilla\win32
+        - if "%configuration%"=="Unicode Debug" set scintilla_debug=DEBUG=1
+        - if "%configuration%"=="Unicode Release" set scintilla_debug=
+        - mingw32-make
+        - cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+        - mingw32-make
+    }
+    md _build -Force | Out-Null
+    cd _build
+    & cmake -G "$generator" ..
+    if ($LastExitCode -ne 0) {
+        throw "Exec: $ErrorMessage"
+    }
+    & cmake --build . --config $env:CONFIGURATION
+    if ($LastExitCode -ne 0) {
+        throw "Exec: $ErrorMessage"
+    }
 
