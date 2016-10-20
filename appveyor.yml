@@ -55,7 +55,7 @@ build_script:
 
 
 - ps: |
-    if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -notmatch "mingw-w64")
+    if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -match "mingw-w64")
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
         if($env:CONFIGURATION -eq "Unicode Debug")
