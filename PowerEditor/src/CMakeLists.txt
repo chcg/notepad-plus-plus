@@ -346,6 +346,9 @@ IF (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 if ( MSVC )
 	#do not use for mingw builds
 	SET(CMAKE_CXX_FLAGS "/EHsc /MP /W4")
+else ( MSVC )
+	# For possible MinGW compilation
+	SET(CMAKE_CXX_FLAGS "-std=c++14 -fpermissive")
 endif ( MSVC )
 ENDIF (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 
