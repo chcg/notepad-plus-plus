@@ -16,8 +16,8 @@ platform:
     - Win32
 
 configuration:
-    #- Unicode Release
-    - Unicode Debug
+    #- Release
+    - Debug
 
 install:
     - if "%platform%"=="x64" set archi=amd64
@@ -58,11 +58,11 @@ build_script:
     if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -match "mingw-w64")
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
-        if($env:CONFIGURATION -eq "Unicode Debug")
+        if($env:CONFIGURATION -eq "Debug")
         {
            set scintilla_debug=DEBUG=1
         }
-        if($env:CONFIGURATION -eq "Unicode Release")
+        if($env:CONFIGURATION -eq "Release")
         {
            set scintilla_debug=
         }
