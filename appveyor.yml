@@ -12,8 +12,8 @@ environment:
 
 
 platform:
-    - x64
-    #- Win32
+    #- x64
+    - Win32
 
 configuration:
     #- Release
@@ -58,26 +58,24 @@ build_script:
     if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -match "mingw-w64")
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
+        #default build type is release
+        set buildtypedebug=
         if($env:CONFIGURATION -eq "Debug")
         {
-           set scintilla_debug=DEBUG=1
+           set buildtypedebug=DEBUG=1
         }
-        if($env:CONFIGURATION -eq "Release")
-        {
-           set scintilla_debug=
-        }
-        mingw32-make
+        mingw32-make buildtypedebug
         cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make
+        mingw32-make buildtypedebug
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
-    & cmake -G "$generator" ..
+    & cmake -G "$generator" -DCMAKE_CONFIGURATION_TYPES="$env:CONFIGURATION" ..
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
-    & cmake --build . --config $env:CONFIGURATION
+    & cmake --build .
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
