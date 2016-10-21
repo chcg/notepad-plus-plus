@@ -1162,7 +1162,7 @@ void ScintillaEditView::setLexer(int lexerID, LangType langType, int whichList)
 	execute(SCI_SETPROPERTY, reinterpret_cast<WPARAM>("fold.comment"), reinterpret_cast<LPARAM>("1"));
 }
 
-void ScintillaEditView::makeStyle(LangType language, const TCHAR **keywordArray)
+inline void ScintillaEditView::makeStyle(LangType language, const TCHAR **keywordArray)
 {
 	const TCHAR * lexerName = ScintillaEditView::langNames[language].lexerName;
 	LexerStyler *pStyler = (_pParameter->getLStylerArray()).getLexerStylerByName(lexerName);
