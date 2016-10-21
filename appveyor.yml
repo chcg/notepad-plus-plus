@@ -59,14 +59,14 @@ build_script:
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
         #default build type is release
-        set buildtypedebug=
+        $buildtypedebug=
         if($env:CONFIGURATION -eq "Debug")
         {
-           set buildtypedebug=DEBUG=1
+           $buildtypedebug = "DEBUG=1"
         }
-        mingw32-make buildtypedebug
+        mingw32-make $buildtypedebug
         cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make buildtypedebug
+        mingw32-make $buildtypedebug
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
