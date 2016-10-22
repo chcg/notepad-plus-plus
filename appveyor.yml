@@ -64,9 +64,9 @@ build_script:
         {
            $buildtypedebug = "DEBUG=1"
         }
-        mingw32-make $buildtypedebug
+        mingw32-make "$buildtypedebug"
         cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make $buildtypedebug
+        mingw32-make "$buildtypedebug"
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
