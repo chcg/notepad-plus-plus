@@ -59,19 +59,23 @@ build_script:
     {
         cd c:\projects\notepad-plus-plus\scintilla\win32
         #default build type is release
-        $buildtypedebug=
         if($env:CONFIGURATION -eq "Debug")
         {
-           $buildtypedebug = "DEBUG=1"
+           mingw32-make DEBUG=1
+           cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+           mingw32-make DEBUG=1
         }
-        mingw32-make "$buildtypedebug"
-        cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make "$buildtypedebug"
+        else
+        {
+           mingw32-make
+           cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+           mingw32-make
+        }
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
-    & cmake -G "$generator" -DCMAKE_CONFIGURATION_TYPES="$env:CONFIGURATION" ..
+    & cmake -G "$generator" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" ..
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
