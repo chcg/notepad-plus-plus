@@ -65,7 +65,7 @@ build_script:
         }
         #mingw32-make
         cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make
+        & mingw32-make
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
