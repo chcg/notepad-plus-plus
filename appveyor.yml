@@ -57,7 +57,7 @@ before_build:
     else
     {
         #seems vs build always needs also the debug config, choose via the config option to the build command
-        $build_type = "Debug;Release"
+        $build_type = "-DCMAKE_CONFIGURATION_TYPES=""Debug;Release"" "
         $build_config = "--config $env:CONFIGURATION"
     }
     Write-Output "build_type: $build_type"
