@@ -52,7 +52,7 @@ before_build:
     if ($env:PLATFORMTOOLSET -match "mingw-w64")
     {
         $build_type = "-DCMAKE_BUILD_TYPE=$env:CONFIGURATION"
-        $build_config =
+        $build_config = ""
     }
     else
     {
