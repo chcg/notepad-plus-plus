@@ -61,7 +61,7 @@ build_script:
         #default build type is release
         if($env:CONFIGURATION -eq "Debug")
         {
-           set DEBUG=1
+           #set DEBUG=1
         }
         mingw32-make
         #cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
