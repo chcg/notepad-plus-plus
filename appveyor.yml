@@ -6,8 +6,8 @@ clone_depth: 1
 
 environment:
   matrix:
-    #- PlatformToolset: v140_xp
-    #- PlatformToolset: v120_xp
+    - PlatformToolset: v140_xp
+    - PlatformToolset: v120_xp
     - PlatformToolset: mingw-w64
 
 
@@ -55,27 +55,20 @@ build_script:
 
 
 - ps: |
-    if ($env:PLATFORM -eq "Win32" -and $env:PLATFORMTOOLSET -match "mingw-w64")
-    {
-        cd c:\projects\notepad-plus-plus\scintilla\win32
-        #default build type is release
-        if($env:CONFIGURATION -eq "Debug")
-        {
-           #set DEBUG=1
-        }
-        #mingw32-make
-        cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        & mingw32-make
-    }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
-    #& cmake -G "$generator" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" ..
-    #if ($LastExitCode -ne 0) {
-    #    throw "Exec: $ErrorMessage"
-    #}
-    #& cmake --build .
-    #if ($LastExitCode -ne 0) {
-    #    throw "Exec: $ErrorMessage"
-    #}
+    $build_type = "-DCMAKE_CONFIGURATION_TYPES=$env:CONFIGURATION"
+    if ($env:PLATFORMTOOLSET -match "mingw-w64")
+    {
+        $build_type = "-DCMAKE_BUILD_TYPE=$env:CONFIGURATION"
+    }
+    & cmake -G "$generator" $build_type ..
+    if ($LastExitCode -ne 0) {
+        throw "Exec: $ErrorMessage"
+    }
+    & cmake --build .
+    if ($LastExitCode -ne 0) {
+        throw "Exec: $ErrorMessage"
+    }
 
