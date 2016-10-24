@@ -56,10 +56,12 @@ before_build:
     }
     else
     {
-        #seems vs build always needs also the debug config, so just generate all and add the config option to the build command
+        #seems vs build always needs also the debug config, choose via the config option to the build command
         $build_type = "Debug;Release"
         $build_config = "--config $env:CONFIGURATION"
     }
+    Write-Output "build_type: $build_type"
+    Write-Output "build_config: $build_config"
 
 build_script:
 
