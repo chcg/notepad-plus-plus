@@ -64,16 +64,16 @@ build_script:
            set DEBUG=1
         }
         mingw32-make
-        cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-        mingw32-make
+        #cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+        #mingw32-make
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
-    & cmake -G "$generator" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" ..
-    if ($LastExitCode -ne 0) {
-        throw "Exec: $ErrorMessage"
-    }
+    #& cmake -G "$generator" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" ..
+    #if ($LastExitCode -ne 0) {
+    #    throw "Exec: $ErrorMessage"
+    #}
     #& cmake --build .
     #if ($LastExitCode -ne 0) {
     #    throw "Exec: $ErrorMessage"
