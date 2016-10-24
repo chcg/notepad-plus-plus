@@ -48,6 +48,18 @@ before_build:
     {
         $generator = "$generator Win64"
     }
+    #cmake build type, depended on the used generator, see https://cmake.org/cmake/help/v3.6/variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE
+    if ($env:PLATFORMTOOLSET -match "mingw-w64")
+    {
+        $build_type = "-DCMAKE_BUILD_TYPE=$env:CONFIGURATION"
+        $build_config =
+    }
+    else
+    {
+        #seems vs build always needs also the debug config, so just generate all and add the config option to the build command
+        $build_type = "Debug;Release"
+        $build_config = "--config $env:CONFIGURATION"
+    }
 
 build_script:
 
@@ -56,16 +68,11 @@ build_script:
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
     cd _build
-    $build_type = "-DCMAKE_CONFIGURATION_TYPES=$env:CONFIGURATION"
-    if ($env:PLATFORMTOOLSET -match "mingw-w64")
-    {
-        $build_type = "-DCMAKE_BUILD_TYPE=$env:CONFIGURATION"
-    }
     & cmake -G "$generator" $build_type ..
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
-    & cmake --build .
+    & cmake --build . $build_config
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
