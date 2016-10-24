@@ -61,16 +61,11 @@ build_script:
         #default build type is release
         if($env:CONFIGURATION -eq "Debug")
         {
-           mingw32-make DEBUG=1
-           cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-           mingw32-make DEBUG=1
+           set DEBUG=1
         }
-        else
-        {
-           mingw32-make
-           cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
-           mingw32-make
-        }
+        mingw32-make
+        cd c:\projects\notepad-plus-plus\PowerEditor\gcc\
+        mingw32-make
     }
     cd c:\projects\notepad-plus-plus\PowerEditor\src
     md _build -Force | Out-Null
@@ -79,8 +74,8 @@ build_script:
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
-    & cmake --build .
-    if ($LastExitCode -ne 0) {
-        throw "Exec: $ErrorMessage"
-    }
+    #& cmake --build .
+    #if ($LastExitCode -ne 0) {
+    #    throw "Exec: $ErrorMessage"
+    #}
 
