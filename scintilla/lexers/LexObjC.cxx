@@ -23,9 +23,12 @@
 #include "CharacterSet.h"
 #include "LexerModule.h"
 
-#define INCLUDE_DEPRECATED_FEATURES
 #include "Scintilla.h"
 #include "SciLexer.h"
+
+#ifdef SCI_NAMESPACE
+using namespace Scintilla;
+#endif
 
 #define KEYWORD_BOXHEADER 1
 #define KEYWORD_FOLDCONTRACTED 2
