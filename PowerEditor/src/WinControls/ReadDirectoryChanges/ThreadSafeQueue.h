@@ -27,10 +27,13 @@
 //	See ReadMe.txt for overview information.
 
 #include <list>
+#include <mutex>
 
 template <typename C>
 class CThreadSafeQueue : protected std::list<C>
 {
+    typedef std::list<C> super;
+
 public:
 	CThreadSafeQueue(int nMaxCount)
 	{
@@ -51,14 +54,14 @@ public:
 
 	void push(C& c)
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		std::unique_lock<std::mutex> lock(mtx);
 		push_back( c );
-		lock.Unlock();
+		lock.unlock();
 
 		if (!::ReleaseSemaphore(m_hSemaphore, 1, NULL))
 		{
 			// If the semaphore is full, then take back the entry.
-			lock.Lock();
+			lock.lock();
 			pop_back();
 			if (GetLastError() == ERROR_TOO_MANY_POSTS)
 			{
@@ -69,7 +72,7 @@ public:
 
 	bool pop(C& c)
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		std::unique_lock<std::mutex> lock(mtx);
 
 		// If the user calls pop() more than once after the
 		// semaphore is signaled, then the semaphore count will
@@ -90,12 +93,12 @@ public:
 	// If overflow, use this to clear the queue.
 	void clear()
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		std::unique_lock<std::mutex> lock(mtx);
 
 		for (DWORD i=0; i<size(); i++)
 			WaitForSingleObject(m_hSemaphore, 0);
 
-		__super::clear();
+		super::clear();
 
 		m_bOverflow = false;
 	}
@@ -110,7 +113,7 @@ public:
 protected:
 	HANDLE m_hSemaphore;
 
-	CComAutoCriticalSection m_Crit;
+	std::mutex mtx;
 
 	bool m_bOverflow;
 };

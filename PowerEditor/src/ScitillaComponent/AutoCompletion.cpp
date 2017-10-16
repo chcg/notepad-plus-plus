@@ -430,12 +430,12 @@ void AutoCompletion::getCloseTag(char *closeTag, size_t closeTagSize, size_t car
 	if (isHTML) // for HTML: ignore void elements
 	{
 		// https://www.w3.org/TR/html5/syntax.html#void-elements
-		char *disallowedTags[] = {
+		const char *disallowedTags[] = {
 				"area", "base", "br", "col", "embed", "hr", "img", "input",
 				"keygen", "link", "meta", "param", "source", "track", "wbr",
 				"!doctype"
 			};
-		size_t disallowedTagsLen = sizeof(disallowedTags) / sizeof(char *);
+		size_t disallowedTagsLen = sizeof(disallowedTags) / sizeof(const char *);
 		for (size_t i = 0; i < disallowedTagsLen; ++i)
 		{
 			if (strnicmp(tagHead + 1, disallowedTags[i], strlen(disallowedTags[i])) == 0)
@@ -542,7 +542,7 @@ void AutoCompletion::insertMatchedChars(int character, const MatchedPairConf & m
 {
 	const vector< pair<char, char> > & matchedPairs = matchedPairConf._matchedPairs;
 	int caretPos = static_cast<int32_t>(_pEditView->execute(SCI_GETCURRENTPOS));
-	char *matchedChars = NULL;
+	const char *matchedChars = NULL;
 
 	char charPrev = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos - 2));
 	char charNext = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos));

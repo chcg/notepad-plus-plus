@@ -53,16 +53,23 @@ SET(projIncludDir	../../scintilla/include/
 					./WinControls/FunctionList/
 					./uchardet/
 					./WinControls/FileBrowser/
-					./WinControls/ReadDirectoryChanges/)
+					./WinControls/ReadDirectoryChanges/
+					./MISC/md5/
+					./WinControls/PluginsAdmin/
+					./json/)
+
 
 
 SET(src_files
 			./MISC/Common/LongRunningOperation.cpp
 			./MISC/Common/mutex.cpp
+			./MISC/Common/verifySignedfile.cpp
+			./MISC/md5/md5Dlgs.cpp
 			./MISC/Process/Processus.cpp
 			./WinControls/AboutDlg/AboutDlg.cpp
 			./WinControls/AnsiCharPanel/ansiCharPanel.cpp
 			./ScitillaComponent/AutoCompletion.cpp
+			./WinControls/AnsiCharPanel/asciiListView.cpp
 			./WinControls/FileBrowser/fileBrowser.cpp
 			./WinControls/Grid/BabyGrid.cpp
 			./WinControls/Grid/BabyGridWrapper.cpp
@@ -74,6 +81,7 @@ SET(src_files
 			./ScitillaComponent/columnEditor.cpp
 			./MISC/Common/Common.cpp
 			./WinControls/ContextMenu/ContextMenu.cpp
+			./WinControls/PluginsAdmin/pluginsAdmin.cpp
 			./WinControls/ReadDirectoryChanges/ReadDirectoryChanges.cpp
 			./WinControls/ReadDirectoryChanges/ReadDirectoryChangesPrivate.cpp
 			./WinControls/TabBar/ControlsTab.cpp
@@ -82,6 +90,7 @@ SET(src_files
 			./WinControls/DockingWnd/DockingSplitter.cpp
 			./ScitillaComponent/DocTabView.cpp
 			./WinControls/DocumentMap/documentMap.cpp
+			./WinControls/DocumentMap/documentSnapshot.cpp
 			./EncodingMapper.cpp
 			./WinControls/OpenSaveFileDialog/FileDialog.cpp
 			./WinControls/FindCharsInRange/FindCharsInRange.cpp
@@ -183,10 +192,13 @@ SET(include_files
 			./MISC/Common/LongRunningOperation.h
 			./MISC/Common/mutex.h
 			./MISC/Common/mutex.hxx
+			./MISC/Common/verifySignedfile.h
+			./MISC/md5/md5Dlgs.h
 			./MISC/Process/Processus.h
 			./WinControls/AboutDlg/AboutDlg.h
 			./WinControls/AnsiCharPanel/ansiCharPanel.h
 			./ScitillaComponent/AutoCompletion.h
+			./WinControls/AnsiCharPanel/asciiListView.h
 			./WinControls/FileBrowser/fileBrowser.h
 			./WinControls/FileBrowser/fileBrowser_rc.h
 			./WinControls/Grid/BabyGrid.h
@@ -201,6 +213,8 @@ SET(include_files
 			./ScitillaComponent/columnEditor.h
 			./MISC/Common/Common.h
 			./WinControls/ContextMenu/ContextMenu.h
+			./WinControls/PluginsAdmin/pluginsAdmin.h
+			./WinControls/PluginsAdmin/pluginsAdminRes.h
 			./WinControls/ReadDirectoryChanges/ReadDirectoryChanges.h
 			./WinControls/ReadDirectoryChanges/ReadDirectoryChangesPrivate.h
 			./WinControls/ReadDirectoryChanges/ThreadSafeQueue.h
@@ -213,6 +227,7 @@ SET(include_files
 			./WinControls/DockingWnd/DockingSplitter.h
 			./ScitillaComponent/DocTabView.h
 			./WinControls/DocumentMap/documentMap.h
+			./WinControls/DocumentMap/documentSnapshot.h
 			./EncodingMapper.h
 			./WinControls/OpenSaveFileDialog/FileDialog.h
 			./MISC/FileNameStringSplitter.h
@@ -314,17 +329,20 @@ SET(include_files
 
 
 SET(rcFiles
+			./MISC/md5/md5Dlgs.rc
 			./WinControls/AnsiCharPanel/ansiCharPanel.rc
 			./WinControls/ClipboardHistory/clipboardHistoryPanel.rc
 			./WinControls/ColourPicker/ColourPopup.rc
 			./ScitillaComponent/columnEditor.rc
 			./WinControls/DockingWnd/DockingGUIWidget.rc
 			./WinControls/DocumentMap/documentMap.rc
+			./WinControls/DocumentMap/documentSnapshot.rc
 			./WinControls/FileBrowser/fileBrowser.rc
 			./WinControls/FindCharsInRange/findCharsInRange.rc
 			./ScitillaComponent/FindReplaceDlg.rc
 			./WinControls/FunctionList/functionListPanel.rc
 			./Notepad_plus.rc
+			./WinControls/PluginsAdmin/pluginsAdmin.rc
 			./WinControls/Preference/preference.rc
 			./WinControls/ProjectPanel/ProjectPanel.rc
 			./MISC/RegExt/regExtDlg.rc
@@ -341,7 +359,7 @@ SET(rcFiles
 
 IF (WIN32)
 	SET(option WIN32)
-	SET(win32_LIBRARIES comctl32 shlwapi dbghelp)
+	SET(win32_LIBRARIES comctl32 shlwapi dbghelp version crypt32 wintrust sensapi)
 if ( MSVC )
 	#do not use for mingw builds
 	SET(CMAKE_CXX_FLAGS "/EHa /MP /W4")

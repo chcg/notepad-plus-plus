@@ -444,12 +444,12 @@ bool PluginsAdminDlg::updateListAndLoadFromJson()
 	// load pl.json
 	// 
 	generic_string nppPluginListJsonPath = TEXT("C:\\tmp\\nppPluginList.json");
-	ifstream nppPluginListJson(nppPluginListJsonPath);
-	json pluginsJson;
-	nppPluginListJson >> pluginsJson;
+	//TODO: gcc fix: ifstream nppPluginListJson(nppPluginListJsonPath);
+	//TODO: gcc fix: json pluginsJson;
+	//TODO: gcc fix: nppPluginListJson >> pluginsJson;
 
 	// initialize available list view
-	loadFromJson(_availablePluginList, pluginsJson);
+	//TODO: gcc fix: loadFromJson(_availablePluginList, pluginsJson);
 	updateAvailableListView();
 
 	// initialize update list view

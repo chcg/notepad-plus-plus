@@ -295,8 +295,8 @@ bool FunctionListPanel::serialize(const generic_string & outputFilename)
 		}
 	}
 
-	std::ofstream file(fname2write);
-	file << j;
+	//TODO: gcc fix: std::ofstream file(fname2write);
+	//TODO: gcc fix: file << j;
 
 	return true;
 }

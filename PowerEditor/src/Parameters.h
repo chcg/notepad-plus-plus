@@ -1127,8 +1127,8 @@ friend class NppParameters;
 public:
 	struct LocalizationDefinition
 	{
-		wchar_t *_langName;
-		wchar_t *_xmlFileName;
+		const wchar_t *_langName;
+		const wchar_t *_xmlFileName;
 	};
 
 	bool addLanguageFromXml(std::wstring xmlFullPath);
