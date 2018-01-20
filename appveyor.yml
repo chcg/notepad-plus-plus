@@ -30,8 +30,8 @@ build_script:
     - if "%configuration%"=="Unicode Release" set scintilla_debug=
     - nmake NOBOOST=1 %scintilla_debug% -f scintilla.mak
     - cd c:\projects\notepad-plus-plus\PowerEditor\visual.net\
-    - if "%PlatformToolset%"=="v120_xp" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    - if "%PlatformToolset%"=="v140_xp" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - if "%PlatformToolset%"=="v120_xp" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform%" /p:PlatformToolset="%PlatformToolset%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - if "%PlatformToolset%"=="v140_xp" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform%" /p:PlatformToolset="%PlatformToolset%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
     - cd c:\projects\notepad-plus-plus\
