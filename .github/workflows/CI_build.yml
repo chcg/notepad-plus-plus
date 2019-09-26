@@ -1,0 +1,43 @@
+name: CI_build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: windows-2016
+    strategy:
+      max-parallel: 4
+      matrix:
+        build_configuration: [Unicode Release, Unicode Debug]
+        build_platform: [x64, Win32]
+        
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
+
+    - name: Setup to add MSBuild.exe to path
+      uses: warrenbuckley/Setup-MSBuild@v1
+
+    # - name: MSBuild of scintilla dll
+      # working-directory: scintilla\win32\
+      # run: nmake SUPPORT_XP=1 %scintilla_debug% -f scintilla.mak
+
+    - name: MSBuild of n++ exe
+      working-directory: PowerEditor\visual.net\
+      run: msbuild notepadPlus.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v141_xp"
+
+
+    # - name: Archive artifacts for x64
+      # if: matrix.build_platform == 'x64'
+      # uses: actions/upload-artifact@v1
+      # with:
+          # name: plugin_dll_x64
+          # path: HexEditor\projects\2003\${{ matrix.build_platform }}\${{ matrix.build_configuration }}\HexEditor.dll
+
+    # - name: Archive artifacts for Win32
+      # if: matrix.build_platform == 'Win32'
+      # uses: actions/upload-artifact@v1
+      # with:
+          # name: plugin_dll_x86
+          # path: HexEditor\projects\2003\${{ matrix.build_configuration }}\HexEditor.dll
