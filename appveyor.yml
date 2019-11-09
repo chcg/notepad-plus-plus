@@ -4,24 +4,38 @@ image: Visual Studio 2017
 
 environment:
   matrix:
-    - platform: Win32
-      archi: x86
-      platform_input: Win32
+    # - platform: Win32
+      # archi: x86
+      # platform_input: Win32
 
-    - platform: x64
-      archi: amd64
-      platform_input: x64
+    # - platform: x64
+      # archi: amd64
+      # platform_input: x64
 
-    - platform: mingw-w64_810_X64
+    #- platform: mingw-w64_810_X64
+    #  platform_input: mingw
+
+    - platform: mingw-w64_ubuntu
       platform_input: mingw
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+
 
 configuration:
     - Unicode Release
-    - Unicode Debug
+    #- Unicode Debug
 
 install:
-    - if "%Platform%"=="mingw-w64_810_X64" set PATH=C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
-    - if "%archi%" NEQ "" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %archi%
+    - sh: sudo apt-get -qq update
+    - sh: sudo apt-get -qq install -y mingw-w64-i686-dev
+    - sh: sudo apt-get -qq install -y g++-mingw-w64-i686
+    - sh: sudo apt-get -qq install -y gcc-mingw-w64-i686
+    - sh: sudo update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix
+    - sh: sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
+    #- sh: sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+    #- sh: sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+
+    - cmd: if "%Platform%"=="mingw-w64_810_X64" set PATH=C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin;%PATH:C:\Program Files\Git\usr\bin;=%
+    - cmd: if "%archi%" NEQ "" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %archi%
 
 
 build_script:
@@ -29,15 +43,20 @@ build_script:
           Write-Output "Configuration: $env:CONFIGURATION"
           Write-Output "Platform: $env:PLATFORM"
 
-    - cd "%APPVEYOR_BUILD_FOLDER%"\scintilla\win32
-    - if "%configuration%"=="Unicode Debug" set scintilla_debug=DEBUG=1
-    - if "%configuration%"=="Unicode Release" set scintilla_debug=
-    - if "%archi%" NEQ "" nmake SUPPORT_XP=1 %scintilla_debug% -f scintilla.mak
-    - if "%Platform%"=="mingw-w64_810_X64" mingw32-make -j%NUMBER_OF_PROCESSORS%
+    - cmd: cd "%APPVEYOR_BUILD_FOLDER%"\scintilla\win32
+    - cmd: if "%configuration%"=="Unicode Debug" set scintilla_debug=DEBUG=1
+    - cmd: if "%configuration%"=="Unicode Release" set scintilla_debug=
+    - cmd: if "%archi%" NEQ "" nmake SUPPORT_XP=1 %scintilla_debug% -f scintilla.mak
+    - cmd: if "%Platform%"=="mingw-w64_810_X64" mingw32-make -j%NUMBER_OF_PROCESSORS%
+    - sh: cd "$APPVEYOR_BUILD_FOLDER"/scintilla/win32/
+    - sh: export PATH=/usr/bin/i686-w64-mingw32-gcc/bin:/usr/bin/i686-w64-mingw32-g++/bin:$PATH
+    - sh: make -j CXX=i686-w64-mingw32-g++ WINDRES=i686-w64-mingw32-windres
     
-    - cd "%APPVEYOR_BUILD_FOLDER%"\PowerEditor\visual.net\
-    - if "%archi%" NEQ "" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform_input%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    - if "%Platform%"=="mingw-w64_810_X64" cd c:\projects\notepad-plus-plus\PowerEditor\gcc\ & mingw32-make -j%NUMBER_OF_PROCESSORS%
+    - cmd: cd "%APPVEYOR_BUILD_FOLDER%"\PowerEditor\visual.net\
+    - cmd: if "%archi%" NEQ "" msbuild notepadPlus.vcxproj /p:configuration="%configuration%" /p:platform="%platform_input%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - cmd: if "%Platform%"=="mingw-w64_810_X64" cd "%APPVEYOR_BUILD_FOLDER%"\PowerEditor\gcc\ & mingw32-make -j%NUMBER_OF_PROCESSORS%
+    - sh: cd "$APPVEYOR_BUILD_FOLDER"/PowerEditor/gcc/
+    - sh: make 
 
 
 after_build:
