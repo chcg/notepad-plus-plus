@@ -116,6 +116,9 @@ SRC_OBJS = \
 	ViewStyle.o \
 	XPM.o
 
+# To have PCRE boost regex with header only is integrated and not just the one from std
+include ../../boostregex/nppSpecifics_mingw.mak
+
 # Required by lexers
 LEXLIB_OBJS = \
 	Accessor.o \

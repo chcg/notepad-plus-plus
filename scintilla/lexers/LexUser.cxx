@@ -808,7 +808,7 @@ static inline void ReColoringCheck(Sci_PositionU & startPos, int & nestedLevel, 
         do
         {
             ch = styler.SafeGetCharAt(--startPos);
-            if (startPos == -1)
+            if (startPos == static_cast<Sci_PositionU>(-1))
                 startPos = 0;
         }
         while(ch != '\r' && ch != '\n' && startPos > 0);

@@ -266,9 +266,13 @@ all: NotepadPP xmlcfg
 # Main Notepad++ rule
 NotepadPP: $(EXEC)
 
+ifndef DEBUG
+STRIPFLAG=-s
+endif
+
 $(EXEC): $(OBJS) $(OBJ_RES)
-	$(CXX) $(LDFLAGS) $^ $(LIBSCILEX) $(LIBS) -o $@_dynamic
-	$(CXX) $(LDFLAGS) $^ $(LIBSCILEX) $(LIBS) -static -o $@
+	$(CXX) $(LDFLAGS) $^ $(LIBSCILEX) $(LIBS) -o $(STRIPFLAG) $@_dynamic
+	$(CXX) $(LDFLAGS) $^ $(LIBSCILEX) $(LIBS) -static -o $(STRIPFLAG) $@
 	
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -c $< -o $@
