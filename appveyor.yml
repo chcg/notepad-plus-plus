@@ -4,17 +4,9 @@ image: Visual Studio 2017
 
 environment:
   matrix:
-    - platform: Win32
-      archi: x86
-      platform_input: Win32
-      PYTHON: "C:\\Python38"
-
     - platform: x64
       archi: amd64
       platform_input: x64
-
-    - platform: mingw-w64_810_X64
-      platform_input: mingw
 
 configuration:
     - Unicode Release
