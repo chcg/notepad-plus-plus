@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2021 Don HO <don.h@free.fr>
+	
+    This file is part of GUP for Notepad++
+
+    GUP for Notepad++ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    GUP for Notepad++ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with GUP.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- This file is optional.-->
+
+<GUP_NativeLangue name = "Русский">
+	<PopupMessages>
+		<!-- <MSGID_NOUPDATE  content="No update is available." /> -->
+		<MSGID_NOUPDATE content="Нет доступных обновлений." />
+		<!-- <MSGID_UPDATEAVAILABLE  content="An update package is available, do you want to download it?" /> -->
+		<MSGID_UPDATEAVAILABLE content="Доступно обновление. Хотите загрузить его?" />
+		<!-- <MSGID_DOWNLOADSTOPPED  content="Download is stopped by user. Update is aborded." /> -->
+		<MSGID_DOWNLOADSTOPPED content="Загрузка остановлена пользователем. Обновление отменено." />
+		<!-- <MSGID_CLOSEAPP  content=" is opened.&#xD;Updater will close it in order to process the installation.&#xD;Continue?" /> -->
+		<MSGID_CLOSEAPP content=" запущен.&#xD;Программа обновления закроет его, чтобы установить обновление.&#xD;Хотите продолжить?" />
+		<!-- <MSGID_ABORTORNOT  content="Do you want to abort update download?" /> -->
+		<MSGID_ABORTORNOT content="Отменить загрузку обновления?" />
+	</PopupMessages>
+</GUP_NativeLangue>
