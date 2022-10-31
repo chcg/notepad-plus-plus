@@ -4153,8 +4153,8 @@ Sci::Position Editor::FindText(
 			static_cast<FindOption>(wParam),
 			&lengthFound);
 		if (pos != -1) {
-			ft->chrgText.cpMin = static_cast<Sci_PositionCR>(pos);
-			ft->chrgText.cpMax = static_cast<Sci_PositionCR>(pos + lengthFound);
+			ft->chrgText.cpMin = static_cast<PositionCR>(pos);
+			ft->chrgText.cpMax = static_cast<PositionCR>(pos + lengthFound);
 		}
 		return pos;
 	} catch (RegexError &) {
