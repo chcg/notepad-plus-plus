@@ -470,7 +470,7 @@ std::shared_ptr<Font> Font::Allocate(const FontParameters &fp) {
 // when less than safe size otherwise allocate on heap and free automatically.
 template<typename T, int lengthStandard>
 class VarBuffer {
-	T bufferStandard[lengthStandard];
+	T bufferStandard[lengthStandard]{};
 public:
 	T *buffer;
 	explicit VarBuffer(size_t length) : buffer(nullptr) {
