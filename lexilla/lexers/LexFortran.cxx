@@ -354,14 +354,17 @@ static void CheckBackComLines(Accessor &styler, bool isFixFormat, Sci_Position l
 		nComCol[copyTo] = nComColB[i];
 	}
 	assert(nComL < nLines);
-	comL[nComL] = comLineCur;
-	nComCol[nComL] = nComCur;
-	for (unsigned int i=0; i<nComL; i++) {
-		unsigned copyTo = i + nComL + 1;
-		comL[copyTo]    = comLineF[i];
-		nComCol[copyTo] = nComColF[i];
+	if (nComL < nLines)
+	{
+		comL[nComL] = comLineCur;
+		nComCol[nComL] = nComCur;
+		for (unsigned int i = 0; i < nComL; i++) {
+			unsigned copyTo = i + nComL + 1;
+			comL[copyTo] = comLineF[i];
+			nComCol[copyTo] = nComColF[i];
+		}
 	}
-	
+
 	Sci_Position lineC = lineCurrent - nComL + 1;
 	Sci_PositionU iStart;
 	if (lineC <= 0) {
