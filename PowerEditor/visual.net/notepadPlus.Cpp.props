@@ -32,7 +32,7 @@
       <SDLCheck>true</SDLCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4456;4457;4459</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4456;4457;4459;26451;26454;26819</DisableSpecificWarnings>
       <AdditionalOptions>/Zc:__cplusplus /source-charset:utf-8 /Zc:strictStrings /w15262 %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
