@@ -96,6 +96,7 @@
       <AdditionalIncludeDirectories>..\include;..\..\scintilla\include;..\lexlib;</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>26451;26454;26819</DisableSpecificWarnings>
       <MinimalRebuild>false</MinimalRebuild>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp17</LanguageStandard>
