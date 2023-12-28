@@ -1,0 +1,31 @@
+name: CI_build
+
+on: [push, pull_request]
+
+jobs:
+  build_windows:
+
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_configuration: [Release]
+        build_platform: [x64]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Run package all
+      working-directory: PowerEditor\installer
+      run: |
+           $env:SIGN=1
+           $env:NPP_CERT=".\test-signing.pfx"
+           $env:NPP_CERT_PWD="Password1234"
+           Write-Output "SIGN : $env:SIGN"
+           Write-Output "NPP_CERT : $env:NPP_CERT"
+           Write-Output "NPP_CERT_PWD : $env:NPP_CERT_PWD"
+           .\packageAll.bat
