@@ -32,11 +32,11 @@ If ErrorLevel 1 goto End
 
 %signBinary% ..\bin\NppShell.x86.dll
 If ErrorLevel 1 goto End
-%signBinary% ..\bin64\NppShell.msix
+rem %signBinary% ..\bin64\NppShell.msix
 If ErrorLevel 1 goto End
 %signBinary% ..\bin64\NppShell.x64.dll
 If ErrorLevel 1 goto End
-%signBinary% ..\binarm64\NppShell.msix
+rem %signBinary% ..\binarm64\NppShell.msix
 If ErrorLevel 1 goto End
 %signBinary% ..\binarm64\NppShell.arm64.dll
 If ErrorLevel 1 goto End
