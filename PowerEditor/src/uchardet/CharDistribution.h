@@ -50,7 +50,7 @@ public:
   CharDistributionAnalysis() {Reset(PR_FALSE);}
 
   //feed a block of data and do distribution analysis
-  void HandleData(const char*, PRUint32) {}
+  void HandleData(const char* , PRUint32 ) {}
   
   //Feed a character with known length
   void HandleOneChar(const char* aStr, PRUint32 aCharLen)
@@ -128,12 +128,12 @@ public:
   EUCTWDistributionAnalysis();
 protected:
 
-  //for euc-TW encoding, we are interested 
+  //for EUC-TW encoding, we are interested
   //  first  byte range: 0xc4 -- 0xfe
   //  second byte range: 0xa1 -- 0xfe
   //no validation needed here. State machine has done that
-  PRInt32 GetOrder(const char* str) {
-	  if ((unsigned char)*str >= (unsigned char)0xc4)  
+  PRInt32 GetOrder(const char* str) 
+  { if ((unsigned char)*str >= (unsigned char)0xc4)  
       return 94*((unsigned char)str[0]-(unsigned char)0xc4) + (unsigned char)str[1] - (unsigned char)0xa1;
     else
       return -1;

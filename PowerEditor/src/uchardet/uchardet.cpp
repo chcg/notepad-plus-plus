@@ -34,47 +34,52 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-
 #include "uchardet.h"
+#include <string.h>
+#include <stdlib.h>
 #include "nscore.h"
 #include "nsUniversalDetector.h"
-#include <string>
-
-using std::string;
 
 class HandleUniversalDetector : public nsUniversalDetector
 {
 protected:
-	string m_charset;
+    char *m_charset;
 
 public:
     HandleUniversalDetector()
     : nsUniversalDetector(NS_FILTER_ALL)
+    , m_charset(0)
     {
-        m_charset = "";
     }
 
     virtual ~HandleUniversalDetector()
-    {}
+    {
+        if (m_charset)
+            free(m_charset);
+    }
 
     virtual void Report(const char* charset)
     {
-        m_charset = charset;
+        if (m_charset)
+            free(m_charset);
+        m_charset = strdup(charset);
     }
 
     virtual void Reset()
     {
         nsUniversalDetector::Reset();
-        m_charset = "";
+        if (m_charset)
+            free(m_charset);
+        m_charset = strdup("");
     }
 
     const char* GetCharset() const
     {
-        return m_charset.c_str();
+        return m_charset? m_charset : "";
     }
 };
 
-uchardet_t uchardet_new()
+uchardet_t uchardet_new(void)
 {
     return reinterpret_cast<uchardet_t> (new HandleUniversalDetector());
 }
@@ -86,7 +91,11 @@ void uchardet_delete(uchardet_t ud)
 
 int uchardet_handle_data(uchardet_t ud, const char * data, size_t len)
 {
-    nsresult ret = reinterpret_cast<HandleUniversalDetector*>(ud)->HandleData(data, (PRUint32)len);
+    nsresult ret = NS_OK;
+
+    if (len > 0)
+        ret = reinterpret_cast<HandleUniversalDetector*>(ud)->HandleData(data, (PRUint32)len);
+
     return (ret != NS_OK);
 }
 
