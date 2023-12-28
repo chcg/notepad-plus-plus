@@ -1,4 +1,4 @@
-name: CI_build
+name: CI_installer_check
 
 on: [push, pull_request]
 
