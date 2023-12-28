@@ -39,12 +39,11 @@
 
 #include "nsPkgInt.h"
 
-/* Apart from these 3 generic states, machine states are specific to
- * each charset prober.
- */
-#define eStart 0
-#define eError 1
-#define eItsMe 2
+typedef enum {
+   eStart = 0,
+   eError = 1,
+   eItsMe = 2 
+} nsSMState;
 
 #define GETCLASS(c) GETFROMPCK(((unsigned char)(c)), mModel->classTable)
 
@@ -73,8 +72,8 @@ public:
       mCurrentCharLen = mModel->charLenTable[byteCls];
     }
     //from byte's class and stateTable, we get its next state
-    mCurrentState = GETFROMPCK(mCurrentState * mModel->classFactor + byteCls,
-                               mModel->stateTable);
+    mCurrentState=(nsSMState)GETFROMPCK(mCurrentState*(mModel->classFactor)+byteCls,
+                                       mModel->stateTable);
     mCurrentBytePos++;
     return mCurrentState;
   }

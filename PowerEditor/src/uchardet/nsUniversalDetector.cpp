@@ -241,29 +241,6 @@ void nsUniversalDetector::DataEnd()
     return;
   }
 
-  if (! mDetectedCharset)
-  {
-    switch (mInputState)
-    {
-    case eEscAscii:
-    case ePureAscii:
-      if (mNbspFound)
-      {
-          /* ISO-8859-1 is a good result candidate for ASCII + NBSP.
-           * (though it could have been any ISO-8859 encoding). */
-          mDetectedCharset = "ISO-8859-1";
-      }
-      else
-      {
-          /* ASCII with the ESC character (or the sequence "~{") is still
-           * ASCII until proven otherwise. */
-          mDetectedCharset = "ASCII";
-      }
-    default:
-      break;
-    }
-  }
-
   if (mDetectedCharset)
   {
     mDone = PR_TRUE;
