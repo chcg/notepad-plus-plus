@@ -28,6 +28,7 @@
     <_ClCompileUchardet Include="..\src\uchardet\LangLatvianModel.cpp" />
     <_ClCompileUchardet Include="..\src\uchardet\LangLithuanianModel.cpp" />
     <_ClCompileUchardet Include="..\src\uchardet\LangMalteseModel.cpp" />
+    <_ClCompileUchardet Include="..\src\uchardet\LangNorwegianModel.cpp" />
     <_ClCompileUchardet Include="..\src\uchardet\LangPolishModel.cpp" />
     <_ClCompileUchardet Include="..\src\uchardet\LangPortugueseModel.cpp" />
     <_ClCompileUchardet Include="..\src\uchardet\LangRomanianModel.cpp" />
