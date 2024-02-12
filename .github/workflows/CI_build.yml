@@ -1,6 +1,16 @@
 name: CI_build
 
-on: [push, pull_request]
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.xml'
+      - '**.nsh'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**.xml'
+      - '**.nsh'
 
 jobs:
   build_windows:
