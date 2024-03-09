@@ -877,7 +877,7 @@ ColourRGBA SelectionBackground(const EditModel &model, const ViewStyle &vsDraw, 
 
 ColourOptional SelectionForeground(const EditModel &model, const ViewStyle &vsDraw, InSelection inSelection) {
 	if (inSelection == InSelection::inNone)
-		return {};
+		return ColourOptional();
 	Element element = Element::SelectionText;
 	if (inSelection == InSelection::inAdditional)
 		element = Element::SelectionAdditionalText;
@@ -889,8 +889,8 @@ ColourOptional SelectionForeground(const EditModel &model, const ViewStyle &vsDr
 				return colour;
 			}
 		}
-		element = Element::SelectionInactiveText;
-	}
+			element = Element::SelectionInactiveText;
+		}
 	return vsDraw.ElementColour(element);
 }
 
