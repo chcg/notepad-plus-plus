@@ -207,7 +207,7 @@ bool CSHA1::ReportHash(wchar_t* tszReport, REPORT_TYPE rtReportType) const
 {
 	if(tszReport == NULL) return false;
 
-	wchar_t tszTemp[16]{};
+	wchar_t tszTemp[17]{};
 
 	if((rtReportType == REPORT_HEX) || (rtReportType == REPORT_HEX_SHORT))
 	{
