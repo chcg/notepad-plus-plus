@@ -66,4 +66,3 @@ private:
 	WindowVector *_pWinVector = nullptr;
     int _current = 0;
 };
-
