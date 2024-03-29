@@ -178,7 +178,7 @@ void SetWindowID(HWND hWnd, int identifier) noexcept {
 
 constexpr POINT POINTFromLParam(sptr_t lParam) noexcept {
 	return { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-};
+}
 
 constexpr Point PointFromLParam(sptr_t lpoint) noexcept {
 	return Point::FromInts(GET_X_LPARAM(lpoint), GET_Y_LPARAM(lpoint));
