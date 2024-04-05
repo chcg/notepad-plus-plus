@@ -378,7 +378,7 @@ public:
 		installHooks();
 	}
 
-	virtual ~FileDialogEventHandler()
+	~FileDialogEventHandler()
 	{
 		if (_hwndButtonTooltip)
 		{
