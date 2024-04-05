@@ -372,7 +372,7 @@ public:
 		installHooks();
 	}
 
-	virtual ~FileDialogEventHandler()
+	~FileDialogEventHandler()
 	{
 		eraseHandles();
 		removeHooks();
