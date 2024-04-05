@@ -236,7 +236,7 @@ static inline bool isWhiteSpace2(unsigned char ch, int & nlCount, unsigned char 
 static bool isInListForward2(vvstring * fwEndVectors[], int totalVectors, StyleContext & sc, bool ignoreCase, int forward)
 {
     // forward check for multi-part keywords and numbers
-    // this is differnt from 'isInListForward' function because
+    // this is different from 'isInListForward' function because
     // search for keyword is not performed at sc.currentPos but rather
     // at some position forward of sc.currentPos
 

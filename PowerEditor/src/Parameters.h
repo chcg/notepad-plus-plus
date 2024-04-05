@@ -503,6 +503,10 @@ protected:
 struct LexerStyler : public StyleArray
 {
 public:
+	LexerStyler() {};
+	LexerStyler(const LexerStyler&) = default;
+	LexerStyler(LexerStyler&&) = default;
+
 	LexerStyler & operator=(const LexerStyler & ls)
 	{
 		if (this != &ls)
