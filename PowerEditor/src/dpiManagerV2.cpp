@@ -282,8 +282,12 @@ void DPIManagerV2::sendMessageToChildControls(HWND hwndParent, UINT msg, WPARAM 
 
 void DPIManagerV2::loadIcon(HINSTANCE hinst, const wchar_t* pszName, int cx, int cy, HICON* phico, UINT fuLoad)
 {
+#if __cplusplus >= 202002L
 	if (::LoadIconWithScaleDown(hinst, pszName, cx, cy, phico) != S_OK)
 	{
+#endif
 		*phico = static_cast<HICON>(::LoadImage(hinst, pszName, IMAGE_ICON, cx, cy, fuLoad));
+#if __cplusplus >= 202002L
 	}
+#endif
 }
