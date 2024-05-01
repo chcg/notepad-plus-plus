@@ -341,6 +341,34 @@ jobs:
            export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
            make CROSS_COMPILE=${{ matrix.build_platform }}-w64-mingw32-
 
+  build_linux_24:
+
+    runs-on: ubuntu-24.04
+    needs: before_build
+    if: needs.before_build.outputs.result == ''
+    strategy:
+      matrix:
+        build_platform: ["x86_64"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install packages via apt
+      run: |
+           sudo apt-get -qq update
+           sudo apt-get -qq install -y mingw-w64
+           (for alt in i686-w64-mingw32-g++ i686-w64-mingw32-gcc x86_64-w64-mingw32-g++ x86_64-w64-mingw32-gcc; do sudo update-alternatives --set $alt /usr/bin/$alt-posix; done);
+
+    - name: build make mingw
+      working-directory: PowerEditor/gcc
+      run: |
+           export PATH=/usr/bin/${{ matrix.build_platform }}-w64-mingw32-gcc/bin:/usr/bin/${{ matrix.build_platform }}-w64-mingw32-g++/bin:$PATH
+           ${{ matrix.build_platform }}-w64-mingw32-g++ --version
+           export CXX=${{ matrix.build_platform }}-w64-mingw32-g++
+           export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
+           make CROSS_COMPILE=${{ matrix.build_platform }}-w64-mingw32-
+
+
   build_linux_cmake:
 
     runs-on: ubuntu-latest
