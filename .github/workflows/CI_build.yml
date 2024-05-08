@@ -348,7 +348,7 @@ jobs:
     if: needs.before_build.outputs.result == ''
     strategy:
       matrix:
-        build_platform: ["x86_64"]
+        build_platform: ["x86_64", i686]
 
     steps:
     - uses: actions/checkout@v4
