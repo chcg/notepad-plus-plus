@@ -368,7 +368,7 @@ jobs:
            ${{ matrix.build_platform }}-w64-mingw32-g++ --version
            export CXX=${{ matrix.build_platform }}-w64-mingw32-g++
            export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
-           make CROSS_COMPILE=${{ matrix.build_platform }}-w64-mingw32-
+           make Debug=1 CROSS_COMPILE=${{ matrix.build_platform }}-w64-mingw32-
 
 
   build_linux_cmake:
