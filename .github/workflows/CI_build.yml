@@ -276,7 +276,7 @@ jobs:
       fail-fast: false
       matrix:
         build_configuration: [Release]
-        build_platform: [x86_64]
+        build_platform: [x86_64, i686]
 
     steps:
     - name: Checkout repo
