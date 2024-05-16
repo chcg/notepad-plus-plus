@@ -132,7 +132,7 @@ ifeq "$(TARGET_CPU)" "i686"
 # for some reason i686 versions of MinGW-w64 GCC don't include a linking library for SensApi.dll
 # thus it is generated on the fly, but first check if the DLL is available
 ifeq "$(wildcard $(WIN_DIR)/system32/SensApi.dll)" ""
-$(error $(TARGET_CPU) build requires "%windir%/system32/SensApi.dll" to be present)
+$(echo $(TARGET_CPU) build requires "%windir%/system32/SensApi.dll" to be present)
 endif
 # detect explicit definition of TARGET_CPU via command line to force a 32-bit build for MinGW-w64 with support multilib
 ifeq "$(origin TARGET_CPU)" "command line"
@@ -298,14 +298,14 @@ $(RC_TARGETS): $(BUILD_DIRECTORY)/%.res: %.rc | $(BUILD_DIRECTORY)
 	@echo + compiling $<
 	$(AT)$(RC) $(RCFLAGS) $(addprefix -I,$(CPP_PATH)) $(addprefix -D,$(CPP_DEFINE)) -O coff -o $@ -i $<
 
-ifeq "$(TARGET_CPU)" "i686"
-$(TARGET_BINARY): $(BUILD_DIRECTORY)/libsensapi.a
-$(BUILD_DIRECTORY)/libsensapi.a: | $(BUILD_DIRECTORY)
-	@echo + generating $@
-	$(AT)gendef $(call normalize-path,$(firstword $(wildcard $(WIN_DIR)/syswow64/SensApi.dll $(WIN_DIR)/system32/SensApi.dll)))
-	$(AT)dlltool -mi386 -f--32 -d SensApi.def -k -l $(call normalize-path,$@)
-	$(AT)$(RM) SensApi.def
-endif
+#ifeq "$(TARGET_CPU)" "i686"
+#$(TARGET_BINARY): $(BUILD_DIRECTORY)/libsensapi.a
+#$(BUILD_DIRECTORY)/libsensapi.a: | $(BUILD_DIRECTORY)
+#	@echo + generating $@
+#	$(AT)gendef $(call normalize-path,$(firstword $(wildcard $(WIN_DIR)/syswow64/SensApi.dll $(WIN_DIR)/system32/SensApi.dll)))
+#	$(AT)dlltool -mi386 -f--32 -d SensApi.def -k -l $(call normalize-path,$@)
+#	$(AT)$(RM) SensApi.def
+#endif
 
 $(TARGET_DIRECTORY):
 	@echo + creating TARGET_DIRECTORY $@
