@@ -378,6 +378,7 @@ jobs:
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
+      fail-fast: false
       matrix:
         build_platform: ["x86_64"]
             make_package: mingw-w64-clang-x86_64-make
@@ -411,6 +412,7 @@ jobs:
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
+      fail-fast: false
       matrix:
         build_platform: ["x86_64", i686]
 
@@ -439,6 +441,7 @@ jobs:
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
+      fail-fast: false
       matrix:
         build_configuration: [RELEASE, DEBUG]
         build_platform: ["Unix Makefiles"]
