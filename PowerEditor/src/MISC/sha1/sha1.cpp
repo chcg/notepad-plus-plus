@@ -207,28 +207,32 @@ bool CSHA1::ReportHash(TCHAR* tszReport, REPORT_TYPE rtReportType) const
 {
 	if(tszReport == NULL) return false;
 
-	TCHAR tszTemp[17]{};
+	TCHAR tszTemp[16]{};
 
 	if((rtReportType == REPORT_HEX) || (rtReportType == REPORT_HEX_SHORT))
 	{
 		_sntprintf(tszTemp, 15, _T("%02X"), m_digest[0]);
+		tszTemp[15] = '\0';
 		_tcscpy(tszReport, tszTemp);
 
 		const TCHAR* lpFmt = ((rtReportType == REPORT_HEX) ? _T(" %02X") : _T("%02X"));
 		for(size_t i = 1; i < 20; ++i)
 		{
 			_sntprintf(tszTemp, 15, lpFmt, m_digest[i]);
+			tszTemp[15] = '\0';
 			_tcscat(tszReport, tszTemp);
 		}
 	}
 	else if(rtReportType == REPORT_DIGIT)
 	{
 		_sntprintf(tszTemp, 15, _T("%u"), m_digest[0]);
+		tszTemp[15] = '\0';
 		_tcscpy(tszReport, tszTemp);
 
 		for(size_t i = 1; i < 20; ++i)
 		{
 			_sntprintf(tszTemp, 15, _T(" %u"), m_digest[i]);
+			tszTemp[15] = '\0';
 			_tcscat(tszReport, tszTemp);
 		}
 	}
