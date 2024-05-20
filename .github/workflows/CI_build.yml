@@ -319,7 +319,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_platform: ["x86_64"]
+        build_platform: ["x86_64", i686]
 
     name: ${{ matrix.msys }} - ${{ matrix.configuration }}
 
