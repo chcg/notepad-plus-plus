@@ -69,9 +69,26 @@ CPP_DEFINE += DEBUG
 endif
 
 # detect a request for a sanitizer build
-ifeq "$(filter-out 0,$(UBSAN))" ""
-CXXFLAGS += -fsanitize=undefined -fsanitize=address
+ifneq "$(filter-out 0,$(UBSAN))" ""
+CXXFLAGS += -fsanitize=undefined
 endif
+
+ifneq "$(filter-out 0,$(ADDSAN))" ""
+CXXFLAGS += -fsanitize=address
+endif
+
+ifneq "$(filter-out 0,$(MEMSAN))" ""
+CXXFLAGS += -fsanitize=memory
+endif
+
+ifneq "$(filter-out 0,$(THREADSAN))" ""
+CXXFLAGS += -fsanitize=thread
+endif
+
+ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
+CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
+endif
+
 
 #
 # preparations
