@@ -68,25 +68,10 @@ CXXFLAGS += -Og -g -Wpedantic -Wall -Wextra -Wno-cast-function-type -Wno-overloa
 CPP_DEFINE += DEBUG
 endif
 
-ifeq ($(CXX),clang++)
-  CXXFLAGS += -Wimplicit-fallthrough \
-              -Wformat=2 \
-              -Wno-c++98-compat \
-              -Wno-c++98-compat-pedantic \
-              -Wno-reserved-id-macro \
-              -Wno-pragma-pack \
-              -Wno-unknown-pragmas \
-              -Wno-unused-command-line-argument \
-              -Wno-overloaded-virtual \
-              -Wno-sign-conversion \
-              -Wno-c99-extensions \
-              -Wno-deprecated-declarations
-else ifeq ($(BUILD_TYPE),release)
-  CXXFLAGS += -Wno-alloc-size-larger-than
-endif
-
-ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
-CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
+# detect a request for a sanitizer build
+ifeq "$(filter-out 0,$(UBSAN))" ""
+CXXFLAGS += -fsanitizer=undefined
+LD_LINK += ubsan
 endif
 
 #
