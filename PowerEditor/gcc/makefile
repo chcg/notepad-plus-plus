@@ -109,10 +109,6 @@ else
               -Wno-overloaded-virtual
 endif
 
-ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
-CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
-endif
-
 #
 # preparations
 #
