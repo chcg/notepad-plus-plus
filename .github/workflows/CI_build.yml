@@ -311,6 +311,52 @@ jobs:
         Write-Output (sh --version) | select-object -first 1
         mingw32-make -f PowerEditor\gcc\makefile
 
+  build_windows_msys2_clang:
+
+    runs-on: windows-latest
+    needs: before_build
+    if: needs.before_build.outputs.result == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        build_configuration: [Release]
+        build_platform: [x86_64, i686]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Modify resource.h N++ version to avoid confusion
+      working-directory: PowerEditor\src\
+      shell: pwsh
+      run: |
+           $content = Get-Content -Path 'resource.h'
+           $newContent = $content -replace 'TEXT\(\"Notepad\+\+ v.*\"\)', 'TEXT("Notepad++ GH_BUILD")'
+           $newContent | Set-Content -Path 'resource.h'
+
+    - name: Make n++ exe
+      working-directory: .\
+      run: |
+        Write-host "${{ matrix.build_platform }}"
+        Write-host "${{ matrix.build_configuration }}"
+        $Env:Path = 'C:\msys64\usr\bin' + [IO.Path]::PathSeparator + $Env:Path
+        if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:MSYSTEM = 'MINGW32'}
+        if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:Path = 'C:\msys64\mingw32\bin' + [IO.Path]::PathSeparator + $Env:Path}
+        if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:MSYSTEM = 'MINGW64'}
+        if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
+        if ( $${{ matrix.build_configuration == 'Debug'}} ) {$Env:DEBUG = '1'}
+        bash -lc "pacman --noconfirm -Syuu"
+        bash -lc "pacman --noconfirm -Syuu"
+        if ( $${{ matrix.build_platform == 'i686'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-i686-clang mingw-w64-i686-make"}
+        if ( $${{ matrix.build_platform == 'x86_64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-x86_64-clang mingw-w64-x86_64-make"}
+        Write-Output "Tools version:"
+        Write-Output (((clang++ --version) | select-object -first 1) + " " + (clang++ -dumpmachine))
+        Write-Output (mingw32-make --version) | select-object -first 1
+        Write-Output (sh --version) | select-object -first 1
+        mingw32-make -f PowerEditor\gcc\makefile CXX=clang++ CLANGANALYZE=1
+        mingw32-make -f PowerEditor\gcc\makefile CXX=clang++
+
+
   build_linux:
 
     runs-on: ubuntu-latest
@@ -370,6 +416,35 @@ jobs:
            export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
            export DEBUG=1
            make DEBUG=1 CROSS_COMPILE=${{ matrix.build_platform }}-w64-mingw32-
+
+  build_linux_24_clang:
+
+    runs-on: ubuntu-24.04
+    needs: before_build
+    if: needs.before_build.outputs.result == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        build_platform: ["x86_64", i686]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install packages via apt
+      run: |
+           sudo apt-get -qq update
+           sudo apt-get -qq install -y mingw-w64
+           (for alt in i686-w64-mingw32-g++ i686-w64-mingw32-gcc x86_64-w64-mingw32-g++ x86_64-w64-mingw32-gcc; do sudo update-alternatives --set $alt /usr/bin/$alt-posix; done);
+
+    - name: build make mingw
+      working-directory: PowerEditor/gcc
+      run: |
+           export PATH=/usr/bin/${{ matrix.build_platform }}-w64-mingw32-gcc/bin:/usr/bin/${{ matrix.build_platform }}-w64-mingw32-g++/bin:$PATH
+           clang++ --version
+           export CXX=clang++
+           export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
+           export DEBUG=1
+           make DEBUG=1 TARGET_CPU=${{ matrix.build_platform }} CLANGANALYZE=1
 
 
   build_linux_cmake:
