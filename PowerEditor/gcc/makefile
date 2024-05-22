@@ -70,8 +70,7 @@ endif
 
 # detect a request for a sanitizer build
 ifeq "$(filter-out 0,$(UBSAN))" ""
-CXXFLAGS += -fsanitizer=undefined
-LD_LINK += ubsan
+CXXFLAGS += -fsanitize=undefined -fsanitize=address
 endif
 
 #
