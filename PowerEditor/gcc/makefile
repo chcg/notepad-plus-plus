@@ -96,10 +96,6 @@ else ifeq ($(BUILD_TYPE),release)
   CXXFLAGS += -Wno-alloc-size-larger-than
 endif
 
-ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
-CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
-endif
-
 #
 # preparations
 #
