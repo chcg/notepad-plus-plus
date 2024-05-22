@@ -115,6 +115,23 @@ else
               -Wno-system-headers
 endif
 
+ifneq "$(filter-out 0,$(ADDSAN))" ""
+CXXFLAGS += -fsanitize=address
+endif
+
+ifneq "$(filter-out 0,$(MEMSAN))" ""
+CXXFLAGS += -fsanitize=memory
+endif
+
+ifneq "$(filter-out 0,$(THREADSAN))" ""
+CXXFLAGS += -fsanitize=thread
+endif
+
+ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
+CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
+endif
+
+
 #
 # preparations
 #
