@@ -113,10 +113,6 @@ else
               -Wno-system-headers
 endif
 
-ifneq "$(filter-out 0,$(CLANGANALYZE))" ""
-CXXFLAGS += --analyze -Xanalyzer -analyzer-output=text
-endif
-
 #
 # preparations
 #
