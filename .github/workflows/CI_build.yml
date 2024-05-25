@@ -276,7 +276,7 @@ jobs:
       fail-fast: false
       matrix:
         build_configuration: [Release]
-        build_platform: [x86_64, i686]
+        build_platform: [x86_64, i686, aarch64]
 
     steps:
     - name: Checkout repo
@@ -300,11 +300,14 @@ jobs:
         if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:Path = 'C:\msys64\mingw32\bin' + [IO.Path]::PathSeparator + $Env:Path}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:MSYSTEM = 'MINGW64'}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:MSYSTEM = 'MINGW64'}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
         if ( $${{ matrix.build_configuration == 'Debug'}} ) {$Env:DEBUG = '1'}
         bash -lc "pacman --noconfirm -Syuu"
         bash -lc "pacman --noconfirm -Syuu"
         if ( $${{ matrix.build_platform == 'i686'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-i686-gcc mingw-w64-i686-make"}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make"}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-clang-aarch64-gcc mingw-w64-clang-aarch64-make"}
         Write-Output "Tools version:"
         Write-Output (((gcc --version) | select-object -first 1) + " " + (gcc -dumpmachine))
         Write-Output (mingw32-make --version) | select-object -first 1
@@ -320,7 +323,7 @@ jobs:
       fail-fast: false
       matrix:
         build_configuration: [Release]
-        build_platform: [x86_64, i686]
+        build_platform: [x86_64, i686, aarch64]
 
     steps:
     - name: Checkout repo
@@ -344,11 +347,14 @@ jobs:
         if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:Path = 'C:\msys64\mingw32\bin' + [IO.Path]::PathSeparator + $Env:Path}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:MSYSTEM = 'MINGW64'}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:MSYSTEM = 'MINGW64'}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
         if ( $${{ matrix.build_configuration == 'Debug'}} ) {$Env:DEBUG = '1'}
         bash -lc "pacman --noconfirm -Syuu"
         bash -lc "pacman --noconfirm -Syuu"
         if ( $${{ matrix.build_platform == 'i686'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-i686-clang mingw-w64-i686-make"}
         if ( $${{ matrix.build_platform == 'x86_64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-x86_64-clang mingw-w64-x86_64-make"}
+        if ( $${{ matrix.build_platform == 'aarch64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-make"}
         Write-Output "Tools version:"
         Write-Output (((clang++ --version) | select-object -first 1) + " " + (clang++ -dumpmachine))
         Write-Output (mingw32-make --version) | select-object -first 1
@@ -425,7 +431,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_platform: ["x86_64", i686]
+        build_platform: ["x86_64", i686, aarch64]
 
     steps:
     - uses: actions/checkout@v4
@@ -433,7 +439,7 @@ jobs:
     - name: Install packages via apt
       run: |
            sudo apt-get -qq update
-           sudo apt-get -qq install -y mingw-w64
+           sudo apt-get -qq install -y mingw-w64 mingw-w64-clang
            (for alt in i686-w64-mingw32-g++ i686-w64-mingw32-gcc x86_64-w64-mingw32-g++ x86_64-w64-mingw32-gcc; do sudo update-alternatives --set $alt /usr/bin/$alt-posix; done);
 
     - name: build make mingw
@@ -442,6 +448,7 @@ jobs:
            export PATH=/usr/bin/${{ matrix.build_platform }}-w64-mingw32-gcc/bin:/usr/bin/${{ matrix.build_platform }}-w64-mingw32-g++/bin:$PATH
            clang++ --version
            export CXX=clang++
+           export TARGET_SYSTEM=windows
            export WINDRES=${{ matrix.build_platform }}-w64-mingw32-windres
            export DEBUG=1
            make DEBUG=1 TARGET_CPU=${{ matrix.build_platform }} CLANGANALYZE=1
