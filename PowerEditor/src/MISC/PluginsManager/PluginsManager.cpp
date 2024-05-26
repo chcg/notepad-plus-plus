@@ -450,7 +450,6 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 				if (hFindDll && (hFindDll != INVALID_HANDLE_VALUE))
 				{
 					::FindClose(hFindDll);
-					hFindDll = INVALID_HANDLE_VALUE;
 				}
 				hFindDll = ::FindFirstFile(pluginsFullPathFilter2.c_str(), &foundData);
 				if (hFindDll != INVALID_HANDLE_VALUE && !(foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
