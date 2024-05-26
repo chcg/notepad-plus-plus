@@ -680,7 +680,7 @@ static int getKwClassFromName(const char* str)
 	if (std::strcmp(str, "substyle7") == 0) return LANG_INDEX_SUBSTYLE7;
 	if (std::strcmp(str, "substyle8") == 0) return LANG_INDEX_SUBSTYLE8;
 
-	if ((str[1] == '\0') && (str[0] >= '0') && (str[0] <= '8')) // up to KEYWORDSET_MAX
+	if ((&str[1] && str[1] == '\0') && (str[0] >= '0') && (str[0] <= '8')) // up to KEYWORDSET_MAX
 		return str[0] - '0';
 
 	return -1;
