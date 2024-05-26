@@ -438,7 +438,7 @@ jobs:
     - name: Install packages via apt
       run: |
            sudo apt-get -qq update
-           sudo apt-get -qq install -y mingw-w64 mingw-w64-clang
+           sudo apt-get -qq install -y mingw-w64
            (for alt in i686-w64-mingw32-g++ i686-w64-mingw32-gcc x86_64-w64-mingw32-g++ x86_64-w64-mingw32-gcc; do sudo update-alternatives --set $alt /usr/bin/$alt-posix; done);
 
     - name: build make mingw
