@@ -360,7 +360,6 @@ jobs:
         Write-Output (mingw32-make --version) | select-object -first 1
         Write-Output (sh --version) | select-object -first 1
         mingw32-make -f PowerEditor\gcc\makefile CXX=clang++ CLANGANALYZE=1
-        mingw32-make -f PowerEditor\gcc\makefile CXX=clang++
 
 
   build_linux:
@@ -446,6 +445,7 @@ jobs:
       working-directory: PowerEditor/gcc
       run: |
            export PATH=/usr/bin/${{ matrix.build_platform }}-w64-mingw32-gcc/bin:/usr/bin/${{ matrix.build_platform }}-w64-mingw32-g++/bin:$PATH
+           ll /usr/bin/${{ matrix.build_platform }}-w64-mingw32*
            clang++ --version
            export CXX=clang++
            export TARGET_SYSTEM=windows
