@@ -620,6 +620,7 @@ int hexStrVal(const wchar_t *str)
 
 int getKwClassFromName(const wchar_t *str)
 {
+	if(!str) return -1;
 	if (!lstrcmp(L"instre1", str)) return LANG_INDEX_INSTR;
 	if (!lstrcmp(L"instre2", str)) return LANG_INDEX_INSTR2;
 	if (!lstrcmp(L"type1", str)) return LANG_INDEX_TYPE;
@@ -630,7 +631,7 @@ int getKwClassFromName(const wchar_t *str)
 	if (!lstrcmp(L"type6", str)) return LANG_INDEX_TYPE6;
 	if (!lstrcmp(L"type7", str)) return LANG_INDEX_TYPE7;
 
-	if ((str[1] == '\0') && (str[0] >= '0') && (str[0] <= '8')) // up to KEYWORDSET_MAX
+	if ((&str[1] && str[1] == '\0') && (str[0] >= '0') && (str[0] <= '8')) // up to KEYWORDSET_MAX
 		return str[0] - '0';
 
 	return -1;
