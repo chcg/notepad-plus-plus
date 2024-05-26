@@ -336,13 +336,16 @@ void ScintillaEditView::init(HINSTANCE hInst, HWND hPere)
 	if (_defaultCharList.empty())
 	{
 		auto defaultCharListLen = execute(SCI_GETWORDCHARS);
-		char *defaultCharList = new char[defaultCharListLen + 1];
-		if(defaultCharList)
+		if(defaultCharListLen > 0)
 		{
-			execute(SCI_GETWORDCHARS, 0, reinterpret_cast<LPARAM>(defaultCharList));
-			defaultCharList[defaultCharListLen] = '\0';
-			_defaultCharList = defaultCharList;
-			delete[] defaultCharList;
+			char *defaultCharList = new char[defaultCharListLen + 1];
+			if(defaultCharList)
+			{
+				execute(SCI_GETWORDCHARS, 0, reinterpret_cast<LPARAM>(defaultCharList));
+				defaultCharList[defaultCharListLen] = '\0';
+				_defaultCharList = defaultCharList;
+				delete[] defaultCharList;
+			}
 		}
 	}
 	//Get the startup document and make a buffer for it so it can be accessed like a file
@@ -560,7 +563,7 @@ LRESULT ScintillaEditView::scintillaNew_Proc(HWND hwnd, UINT Message, WPARAM wPa
 							{
 								size_t docLen = getCurrentDocLen();
 
-								char eolStr[3];
+								char eolStr[3] {};
 								Sci_TextRangeFull tr;
 								tr.chrg.cpMin = posStart;
 								tr.chrg.cpMax = posEnd + 2;
