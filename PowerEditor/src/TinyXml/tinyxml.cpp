@@ -459,8 +459,11 @@ TiXmlElement::~TiXmlElement()
 	while( attributeSet.First() )
 	{
 		TiXmlAttribute* node = attributeSet.First();
-		attributeSet.Remove( node );
-		delete node;
+		if( node )
+		{
+			attributeSet.Remove( node );
+			delete node;
+		}
 	}
 }
 
@@ -1131,7 +1134,7 @@ void TiXmlAttributeSet::Remove( TiXmlAttribute* removeMe )
 
 	for( node = sentinel.next; node != &sentinel; node = node->next )
 	{
-		if ( node == removeMe )
+		if ( node == removeMe && node)
 		{
 			node->prev->next = node->next;
 			node->next->prev = node->prev;
