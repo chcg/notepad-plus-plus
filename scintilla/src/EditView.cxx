@@ -871,8 +871,8 @@ ColourOptional SelectionForeground(const EditModel &model, const ViewStyle &vsDr
 				return colour;
 			}
 		}
-			element = Element::SelectionInactiveText;
-		}
+		element = Element::SelectionInactiveText;
+	}
 	return vsDraw.ElementColour(element);
 }
 
