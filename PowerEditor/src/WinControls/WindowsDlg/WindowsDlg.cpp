@@ -1001,20 +1001,17 @@ void WindowsDlg::resetSelection()
 	if (!_pTab)
 		return;
 
-	if(_pTab)
+	auto curSel = _pTab->getCurrentTabIndex();
+	int pos = 0;
+	for (vector<int>::iterator itr = _idxMap.begin(), end = _idxMap.end(); itr != end; ++itr, ++pos)
 	{
-		auto curSel = _pTab->getCurrentTabIndex();
-		int pos = 0;
-		for (vector<int>::iterator itr = _idxMap.begin(), end = _idxMap.end(); itr != end; ++itr, ++pos)
+		if (*itr == curSel)
 		{
-			if (*itr == curSel)
-			{
-				ListView_SetItemState(_hList, pos, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-			}
-			else
-			{
-				ListView_SetItemState(_hList, pos, 0, LVIS_SELECTED);
-			}
+			ListView_SetItemState(_hList, pos, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		}
+		else
+		{
+			ListView_SetItemState(_hList, pos, 0, LVIS_SELECTED);
 		}
 	}
 }
