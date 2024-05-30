@@ -1130,11 +1130,14 @@ void TiXmlAttributeSet::Add( TiXmlAttribute* addMe )
 
 void TiXmlAttributeSet::Remove( TiXmlAttribute* removeMe )
 {
+	if(!removeMe)
+		return;
+
 	TiXmlAttribute* node;
 
 	for( node = sentinel.next; node != &sentinel; node = node->next )
 	{
-		if ( node == removeMe && node)
+		if ( node == removeMe)
 		{
 			node->prev->next = node->next;
 			node->next->prev = node->prev;
