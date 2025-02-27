@@ -39,12 +39,12 @@ using fnSetThreadDpiAwarenessContext = DPI_AWARENESS_CONTEXT (WINAPI*)(DPI_AWARE
 using fnAdjustWindowRectExForDpi = BOOL (WINAPI*)(LPRECT lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwExStyle, UINT dpi);
 
 
-fnGetDpiForSystem _fnGetDpiForSystem = nullptr;
-fnGetDpiForWindow _fnGetDpiForWindow = nullptr;
-fnGetSystemMetricsForDpi _fnGetSystemMetricsForDpi = nullptr;
-fnSystemParametersInfoForDpi _fnSystemParametersInfoForDpi = nullptr;
-fnSetThreadDpiAwarenessContext _fnSetThreadDpiAwarenessContext = nullptr;
-fnAdjustWindowRectExForDpi _fnAdjustWindowRectExForDpi = nullptr;
+static fnGetDpiForSystem _fnGetDpiForSystem = nullptr;
+static fnGetDpiForWindow _fnGetDpiForWindow = nullptr;
+static fnGetSystemMetricsForDpi _fnGetSystemMetricsForDpi = nullptr;
+static fnSystemParametersInfoForDpi _fnSystemParametersInfoForDpi = nullptr;
+static fnSetThreadDpiAwarenessContext _fnSetThreadDpiAwarenessContext = nullptr;
+static fnAdjustWindowRectExForDpi _fnAdjustWindowRectExForDpi = nullptr;
 
 
 void DPIManagerV2::initDpiAPI()
