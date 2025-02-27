@@ -136,7 +136,7 @@ public:
 		}
 		// the remaining keys are always valid
 		return true;
-	};
+	}
 	virtual bool isEnabled() const {	//true if _keyCombo != 0, false if _keyCombo == 0, in which case no accelerator should be made
 		return (_keyCombo._key != 0);
 	}
@@ -163,7 +163,7 @@ public:
 		return _menuName;
 	}
 
-	void setName(const char* menuName, const char* shortcutName = NULL);
+	void setName(const char* menuName, const char* shortcutName = nullptr);
 
 	void clear(){
 		_keyCombo._isCtrl = false;

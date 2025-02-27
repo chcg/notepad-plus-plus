@@ -289,7 +289,7 @@ namespace NppDarkMode
 	};
 
 	// customized
-	Colors darkCustomizedColors{
+	static Colors darkCustomizedColors{
 		HEXRGB(0x202020),	// background
 		HEXRGB(0x404040),	// softerBackground
 		HEXRGB(0x404040),	// hotBackground
@@ -304,7 +304,7 @@ namespace NppDarkMode
 		HEXRGB(0x484848)	// disabledEdgeColor
 	};
 
-	ColorTone g_colorToneChoice = blackTone;
+	static ColorTone g_colorToneChoice = blackTone;
 
 	void setDarkTone(ColorTone colorToneChoice)
 	{
@@ -331,15 +331,15 @@ namespace NppDarkMode
 		}
 	};
 
-	Theme tDefault(darkColors);
-	Theme tR(darkRedColors);
-	Theme tG(darkGreenColors);
-	Theme tB(darkBlueColors);
-	Theme tP(darkPurpleColors);
-	Theme tC(darkCyanColors);
-	Theme tO(darkOliveColors);
+	static Theme tDefault(darkColors);
+	static Theme tR(darkRedColors);
+	static Theme tG(darkGreenColors);
+	static Theme tB(darkBlueColors);
+	static Theme tP(darkPurpleColors);
+	static Theme tC(darkCyanColors);
+	static Theme tO(darkOliveColors);
 
-	Theme tCustom(darkCustomizedColors);
+	static Theme tCustom(darkCustomizedColors);
 
 
 	static Theme& getTheme()
