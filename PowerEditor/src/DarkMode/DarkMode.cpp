@@ -191,8 +191,8 @@ static void FlushMenuThemes()
 
 // limit dark scroll bar to specific windows and their children
 
-std::unordered_set<HWND> g_darkScrollBarWindows;
-std::mutex g_darkScrollBarMutex;
+static std::unordered_set<HWND> g_darkScrollBarWindows;
+static std::mutex g_darkScrollBarMutex;
 
 void EnableDarkScrollBarForWindowAndChildren(HWND hwnd)
 {
