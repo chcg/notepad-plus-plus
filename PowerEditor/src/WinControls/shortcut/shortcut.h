@@ -162,7 +162,7 @@ public:
 		return _menuName;
 	}
 
-	void setName(const char* menuName, const char* shortcutName = NULL);
+	void setName(const char* menuName, const char* shortcutName = nullptr);
 
 	void clear(){
 		_keyCombo._isCtrl = false;
