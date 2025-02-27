@@ -1442,7 +1442,13 @@ bool NppParameters::load()
 		{
 			auto r = addUserDefineLangsFromXmlTree(udlDoc);
 			if (r.second - r.first > 0)
+			{
 				_pXmlUserLangsDoc.push_back(UdlXmlFileState(udlDoc, false, false, r));
+			}
+			else
+			{
+				delete udlDoc;
+			}
 		}
 	}
 
