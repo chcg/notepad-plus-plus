@@ -103,7 +103,7 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 }
 
 // Debug use
-bool doLogCertifError = false;
+static bool doLogCertifError = false;
 
 bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath)
 {
