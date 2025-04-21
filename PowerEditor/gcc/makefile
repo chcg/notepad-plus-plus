@@ -221,7 +221,7 @@ CPDIR := cp -r
 RMDIR := rm -rf
 CP := cp
 RM := rm -f
-PREBUILD_EVENT_CMD := cmd //C "$(MAKEFILE_ABS_DIR)/../src/NppLibsVersionH-generator.bat"
+PREBUILD_EVENT_CMD := cd PowerEditor/src | ls -a
 normalize-path = $1
 else ifneq "$(wildcard $(dir $(SHELL))ls.exe)" ""
 # a Windows system with a proper shell
