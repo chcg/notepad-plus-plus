@@ -189,7 +189,7 @@ jobs:
           name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
           path: PowerEditor\binarm64\Notepad++.exe
 
-    - name: Archive artifacts for ARM64|x64 / Debug
+    - name: Archive artifacts for ${{ matrix.build_platform}} / Debug
       if: (matrix.build_platform == 'ARM64' || matrix.build_platform == 'x64') && matrix.build_configuration == 'Debug'
       uses: actions/upload-artifact@v4
       with:
