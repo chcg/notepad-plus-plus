@@ -923,7 +923,7 @@ escape_type_class_jump:
             pb->index = (int)i;
             pb->icase = this->flags() & regbase::icase;
             if ((i > m_max_backref) && (i < hash_value_mask))
-               m_max_backref = i;
+               m_max_backref = static_cast<unsigned>(i);
          }
          else
          {
@@ -1968,7 +1968,7 @@ bool basic_regex_parser<charT, traits>::parse_backref()
       pb->index = (int)i;
       pb->icase = this->flags() & regbase::icase;
       if(i > m_max_backref)
-         m_max_backref = i;
+         m_max_backref = static_cast<unsigned>(i);
    }
    else
    {
