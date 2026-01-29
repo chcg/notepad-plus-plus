@@ -2112,10 +2112,12 @@ bool doesPathExist(const wchar_t* path, DWORD milliSec2wait, bool* isTimeoutReac
 }
 
 
-#if defined(__GNUC__)
-#define LAMBDA_STDCALL __attribute__((__stdcall__))
+#if defined(__GNUC__) && __GNUC__ > 8
+#define WINAPI_LAMBDA_RETURN(return_t) -> return_t WINAPI
+#elif defined(__GNUC__)
+#define WINAPI_LAMBDA_RETURN(return_t) WINAPI -> return_t
 #else
-#define LAMBDA_STDCALL 
+#define WINAPI_LAMBDA_RETURN(return_t) -> return_t
 #endif
 
 // check if the window rectangle intersects with any currently active monitor's working area
@@ -2129,7 +2131,7 @@ bool isWindowVisibleOnAnyMonitor(const RECT& rectWndIn)
 	};
 
 	// callback func to check for intersection with each existing monitor
-	auto callback = []([[maybe_unused]] HMONITOR hMon, [[maybe_unused]] HDC hdc, LPRECT lprcMon, LPARAM lpInOut) -> BOOL LAMBDA_STDCALL
+	auto callback = []([[maybe_unused]] HMONITOR hMon, [[maybe_unused]] HDC hdc, LPRECT lprcMon, LPARAM lpInOut) WINAPI_LAMBDA_RETURN(BOOL)
 	{
 		Param4InOut* paramInOut = reinterpret_cast<Param4InOut*>(lpInOut);
 		RECT rectIntersection{};
