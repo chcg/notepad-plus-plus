@@ -18,9 +18,6 @@
 #include <algorithm>
 #include <shlwapi.h>
 #include <uxtheme.h> // for EnableThemeDialogTexture
-#if __cplusplus >= 202002L
-#include <format>
-#endif
 #include <windowsx.h> // for GET_X_LPARAM, GET_Y_LPARAM
 #include <atomic>
 #include "Notepad_plus_Window.h"
@@ -99,30 +96,6 @@ bool SetOSAppRestart()
 				{
 					bRet = true;
 				}
-				else
-				{
-					if (nppParam.doNppLogNulContentCorruptionIssue())
-					{
-						std::string msg = "ERROR: UnregisterApplicationRestart WINAPI failed! (HRESULT: ";
-						#if __cplusplus >= 202002L
-						msg += std::format("{:#010x}", hr);
-						#endif
-						msg += ")";
-						writeLog(nppIssueLog.c_str(), msg.c_str());
-					}
-				}
-			}
-			else
-			{
-				if (nppParam.doNppLogNulContentCorruptionIssue())
-				{
-					std::string msg = "ERROR: GetApplicationRestartSettings WINAPI failed! (HRESULT: ";
-					#if __cplusplus >= 202002L
-					msg += std::format("{:#010x}", hr);
-					#endif
-					msg += ")";
-					writeLog(nppIssueLog.c_str(), msg.c_str());
-				}
 			}
 		}
 	}
@@ -144,18 +117,6 @@ bool SetOSAppRestart()
 			if (hr == S_OK)
 			{
 				bRet = true;
-			}
-			else
-			{
-				if (nppParam.doNppLogNulContentCorruptionIssue())
-				{
-					std::string msg = "ERROR: RegisterApplicationRestart WINAPI failed! (HRESULT: ";
-					#if __cplusplus >= 202002L
-					msg += std::format("{:#010x}", hr);
-					#endif
-					msg += ")";
-					writeLog(nppIssueLog.c_str(), msg.c_str());
-				}
 			}
 		}
 	}
