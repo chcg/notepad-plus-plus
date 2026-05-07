@@ -182,10 +182,10 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     - name: MSBuild of n++ exe
       working-directory: PowerEditor\visual.net\
@@ -280,7 +280,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Modify resource.h N++ version to avoid confusion
       working-directory: PowerEditor\src\
@@ -327,7 +327,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Modify resource.h N++ version to avoid confusion
       working-directory: PowerEditor\src\
@@ -405,7 +405,7 @@ jobs:
         build_platform: ["x86_64", i686, aarch64]
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Install packages via apt
       run: |
@@ -438,7 +438,7 @@ jobs:
         build_platform: ["Unix Makefiles"]
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Install packages via apt
       run: |
