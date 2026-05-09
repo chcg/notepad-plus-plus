@@ -362,7 +362,7 @@ jobs:
         mingw32-make -f PowerEditor\gcc\makefile CXX=clang++ CLANGANALYZE=1
 
 
-  build_linux:
+  build_linux_mingw:
 
     runs-on: ubuntu-latest
     needs: before_build
@@ -461,6 +461,7 @@ jobs:
     - name: generate cmake
       working-directory: PowerEditor/src
       run: |
+           export PATH=/usr/bin/x86_64-w64-mingw32-gcc/bin:/usr/bin/x86_64-w64-mingw32-g++/bin:$PATH
            mkdir _build
            cd _build
            cmake -DCMAKE_TOOLCHAIN_FILE=../cmake_toolchain-mingw-w64-ubuntu.cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_configuration }} -G "${{ matrix.build_platform }}" ..
