@@ -12,6 +12,7 @@ Modified by Don HO <don.h@free.fr>
 
 #include "BabyGrid.h"
 #include "Parameters.h"
+#include <assert.h>
 
 #define MAX_ROWS 32000
 #define MAX_COLS 256
@@ -1155,6 +1156,11 @@ LRESULT CALLBACK GridProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		::GetClientRect(hWnd, &rect);
 		BGHS[SelfIndex].gridwidth = rect.right - rect.left;
 		BGHS[SelfIndex].gridheight = rect.bottom - rect.top;
+	}
+	else
+	{
+		assert(SelfIndex != -1);
+		return ReturnValue;
 	}
 
 	switch (message)
