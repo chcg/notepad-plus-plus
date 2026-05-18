@@ -170,26 +170,40 @@ jobs:
       working-directory: PowerEditor\visual.net\
       run: msbuild notepadPlus.sln /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:RunCodeAnalysis=true
 
-  build_windows_clang:
+    - name: Archive artifacts for x64 / Release
+      if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v7
+      with:
+          name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
+          path: PowerEditor\bin64\Notepad++.exe
 
-    runs-on: windows-latest
-    needs: before_build
-    if: needs.before_build.outputs.result == ''
-    strategy:
-      matrix:
-        build_configuration: [Release]
-        build_platform: [x64]
+    - name: Archive artifacts for Win32 / Release
+      if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v7
+      with:
+          name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
+          path: PowerEditor\bin\Notepad++.exe
 
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v6
+    - name: Archive artifacts for ARM64 / Release
+      if: matrix.build_platform == 'ARM64' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v7
+      with:
+          name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
+          path: PowerEditor\binarm64\Notepad++.exe
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v3
+    - name: Archive artifacts for ARM64|x64 / Debug
+      if: (matrix.build_platform == 'ARM64' || matrix.build_platform == 'x64') && matrix.build_configuration == 'Debug'
+      uses: actions/upload-artifact@v7
+      with:
+          name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
+          path: PowerEditor\visual.net\${{ matrix.build_platform}}\${{ matrix.build_configuration}}\Notepad++.exe
 
-    - name: MSBuild of n++ exe
-      working-directory: PowerEditor\visual.net\
-      run: msbuild notepadPlus.sln /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="ClangCL"  /p:RunCodeAnalysis=true
+    - name: Archive artifacts for Win32 / Debug
+      if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Debug'
+      uses: actions/upload-artifact@v7
+      with:
+          name: Notepad++.MSVC.${{ matrix.build_platform}}.${{ matrix.build_configuration}}
+          path: PowerEditor\visual.net\${{ matrix.build_configuration}}\Notepad++.exe
 
     - name: (cache) Restore Python modules for Win32 / Debug
       if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Debug' && env.PYTHON_ALLOW_CACHE == 'true' && contains(needs.before_build.outputs.title, '[force nopythoncache]') != true
@@ -209,6 +223,56 @@ jobs:
              python -m pip install requests rfc3987 pywin32 lxml
            }
            python PowerEditor\Test\xmlValidator\validator_xml.py
+
+
+    - name: Run FunctionList and UrlDetection Tests for Win32 / Debug only
+      if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Debug'
+      working-directory: .\
+      run: |
+           Copy-Item "PowerEditor\visual.net\Debug\Notepad++.exe" -Destination "PowerEditor\bin"
+           Copy-Item "PowerEditor\src\langs.model.xml" -Destination "PowerEditor\bin"
+           Copy-Item "PowerEditor\src\stylers.model.xml" -Destination "PowerEditor\bin"
+           Copy-Item "PowerEditor\installer\functionList" -Destination "PowerEditor\bin" -Recurse
+           Copy-Item "PowerEditor\installer\xml4Config\doLocalConf.xml" -Destination "PowerEditor\bin"
+           Copy-Item "PowerEditor\installer\filesForTesting\regexGlobalTest.xml" -Destination "PowerEditor\bin\functionList"
+           Copy-Item "PowerEditor\installer\filesForTesting\overrideMap.xml" -Destination "PowerEditor\bin\functionList"
+
+           cd .\PowerEditor\Test\FunctionList\
+           .\unitTestLauncher.ps1
+           if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
+
+           cd ..\UrlDetection
+           .\verifyUrlDetection.ps1
+
+
+  build_windows_clang:
+
+    runs-on: windows-latest
+    needs: before_build
+    if: needs.before_build.outputs.result == ''
+    strategy:
+      matrix:
+        build_configuration: [Release]
+        build_platform: [x64]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v6
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Modify resource.h N++ version to avoid confusion
+      working-directory: PowerEditor\src\
+      run: |
+           $content = Get-Content -Path 'resource.h'
+           $newContent = $content -replace 'TEXT\(\"Notepad\+\+ v.*\"\)', 'TEXT("Notepad++ GH_BUILD")'
+           $newContent | Set-Content -Path 'resource.h'
+
+    - name: MSBuild of n++ exe
+      working-directory: PowerEditor\visual.net\
+      run: msbuild notepadPlus.sln /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="ClangCL"  /p:RunCodeAnalysis=true
+
 
   build_windows_cmake:
 
@@ -275,8 +339,39 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_configuration: [Release]
-        build_platform: [x86_64, i686, aarch64]
+        include:
+          - msys: MINGW32
+            env: i686
+            arch: i686
+            configuration: Release
+            compiler: gcc
+          - msys: MINGW32
+            env: i686
+            arch: i686
+            configuration: Debug
+            compiler: gcc
+          - msys: MINGW64
+            env: x86_64
+            arch: x86_64
+            configuration: Release
+            compiler: gcc
+          - msys: MINGW64
+            env: x86_64
+            arch: x86_64
+            configuration: Debug
+            compiler: gcc
+          - msys: CLANG64
+            env: clang-x86_64
+            arch: x86_64
+            configuration: Release
+            compiler: clang
+          - msys: MINGW64
+            env: clang-aarch64
+            arch: clang-aarch64
+            configuration: Release
+            compiler: gcc
+
+    name: ${{ matrix.msys }} - ${{ matrix.configuration }}
 
     steps:
     - name: Checkout repo
@@ -290,29 +385,34 @@ jobs:
            $newContent = $content -replace 'TEXT\(\"Notepad\+\+ v.*\"\)', 'TEXT("Notepad++ GH_BUILD")'
            $newContent | Set-Content -Path 'resource.h'
 
+    - name: Install and update MSYS2 tools
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msys }}
+        install: mingw-w64-${{ matrix.env }}-${{ matrix.compiler }} mingw-w64-${{ matrix.env }}-make
+        update: true
+        release: false
+
     - name: Make n++ exe
       working-directory: .\
       run: |
-        Write-host "${{ matrix.build_platform }}"
-        Write-host "${{ matrix.build_configuration }}"
+        Write-host "${{ matrix.msys }}"
+        Write-host "${{ matrix.configuration }}"
+        $Env:MSYSTEM = '${{ matrix.msys }}'
         $Env:Path = 'C:\msys64\usr\bin' + [IO.Path]::PathSeparator + $Env:Path
-        if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:MSYSTEM = 'MINGW32'}
-        if ( $${{ matrix.build_platform == 'i686'}} ) {$Env:Path = 'C:\msys64\mingw32\bin' + [IO.Path]::PathSeparator + $Env:Path}
-        if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:MSYSTEM = 'MINGW64'}
-        if ( $${{ matrix.build_platform == 'x86_64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
-        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:MSYSTEM = 'MINGW64'}
-        if ( $${{ matrix.build_platform == 'aarch64'}} ) {$Env:Path = 'C:\msys64\mingw64\bin' + [IO.Path]::PathSeparator + $Env:Path}
-        if ( $${{ matrix.build_configuration == 'Debug'}} ) {$Env:DEBUG = '1'}
-        bash -lc "pacman --noconfirm -Syuu"
-        bash -lc "pacman --noconfirm -Syuu"
-        if ( $${{ matrix.build_platform == 'i686'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-i686-gcc mingw-w64-i686-make"}
-        if ( $${{ matrix.build_platform == 'x86_64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make"}
-        if ( $${{ matrix.build_platform == 'aarch64'}} ) {bash -lc "pacman --noconfirm -S mingw-w64-clang-aarch64-gcc mingw-w64-clang-aarch64-make"}
+        $Env:Path = 'C:\msys64\' + '${{ matrix.msys }}'.ToLower() + '\bin' + [IO.Path]::PathSeparator + $Env:Path
+        if ( $${{ matrix.configuration == 'Debug'}} ) {$Env:DEBUG = '1'}
         Write-Output "Tools version:"
-        Write-Output (((gcc --version) | select-object -first 1) + " " + (gcc -dumpmachine))
+        Write-Output (((${{ matrix.compiler }} --version) | select-object -first 1) + " " + (${{ matrix.compiler }} -dumpmachine))
         Write-Output (mingw32-make --version) | select-object -first 1
         Write-Output (sh --version) | select-object -first 1
         mingw32-make -f PowerEditor\gcc\makefile
+
+    - name: Archive artifacts for ${{ matrix.msys }} / ${{ matrix.configuration }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: Notepad++.${{ matrix.compiler }}.${{ matrix.arch }}.${{ matrix.configuration }}
+        path: bin.${{ matrix.compiler }}.${{ matrix.arch }}${{ matrix.configuration == 'Debug' && '-debug' || '' }}\notepad++.exe
 
   build_windows_msys2_clang:
 
@@ -371,8 +471,6 @@ jobs:
       fail-fast: false
       matrix:
         build_platform: ["x86_64", i686]
-
-    name: ${{ matrix.msys }} - ${{ matrix.configuration }}
 
     steps:
     - name: Checkout repo
