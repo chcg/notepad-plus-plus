@@ -32,6 +32,7 @@
 #if __has_warning("-Wunused-but-set-variable")
 // Disable warning for numNonBlank
 #pragma clang diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
 #endif
 
