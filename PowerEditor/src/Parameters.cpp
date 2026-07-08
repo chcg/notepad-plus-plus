@@ -4416,8 +4416,8 @@ void NppParameters::writeSession(const Session& session, const wchar_t* fileName
 	BOOL doesBackupCopyExist = FALSE;
 	if (doesFileExist(sessionPathName))
 	{
-		std::wcscpy(backupPathName, sessionPathName);
-		std::wcscat(backupPathName, SESSION_BACKUP_EXT);
+		wcscpy_s(backupPathName, sessionPathName);
+		wcscat_s(backupPathName, SESSION_BACKUP_EXT);
 
 		// Make sure backup file is not read-only, if it exists
 		removeReadOnlyFlagFromFileAttributes(backupPathName);
