@@ -525,7 +525,7 @@ jobs:
 
   build_linux_mingw:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
@@ -555,7 +555,7 @@ jobs:
 
   build_linux_24_clang:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
@@ -587,7 +587,7 @@ jobs:
 
   build_linux_cmake:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: before_build
     if: needs.before_build.outputs.result == ''
     strategy:
