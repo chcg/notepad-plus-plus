@@ -2988,8 +2988,10 @@ const wchar_t * Notepad_plus::fileSaveSession(size_t nbFile, wchar_t ** fileName
 	wstring sessionFileName = fDlg.doSaveDlg();
 
 	if (!sessionFileName.empty())
-		return fileSaveSession(nbFile, fileNames, sessionFileName.c_str(), fDlg.getCheckboxState());
-
+	{
+		std::wstring fileNameCopy = sessionFileName;
+		return fileSaveSession(nbFile, fileNames, fileNameCopy.c_str(), fDlg.getCheckboxState());
+	}
 	return NULL;
 }
 
