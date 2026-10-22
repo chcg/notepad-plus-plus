@@ -1,51 +1,66 @@
-# @echo off
+#!/usr/bin/env pwsh
 
-# If this batch file is called from the Microsoft Visual Studio pre-build event,
-# then the current dir for this bat-file is set to Notepad++ solution/project dir.
-# Because in this batch file we have to go two dir-levels higher (for finding the files
-# from the external libraries) from both the solution/project dir and from the dir,
-# where this batch file is located, we can run this batch file ok also manually
-# and not only from that MSVS event.
-$outputFile="..\..\PowerEditor\src\NppLibsVersion.h"
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
 
-if( Test-Path -path $outputFile ) { del $outputFile }
+$outputFile = Join-Path $PSScriptRoot '../../PowerEditor/src/NppLibsVersion.h'
+$outputFile = [System.IO.Path]::GetFullPath($outputFile)
 
-# First "for" finds and extracts specific one line string like "#define VERSION_SCINTILLA "5.5.4"".
-# Second "for" then uses regex to extract only the "..." version part substring from it.
-
-$sciVerStr="N/A"
-$findResults=findstr /L /C:"#define VERSION_SCINTILLA " "..\..\scintilla\win32\ScintRes.rc"
-foreach( $a in $findResults ) {
-	$findRegex= echo $a | findstr /R "[0-9]*\.[0-9]*\." > nul 2>&1
-	echo $findRegex
-	foreach( $b in ($a) ) {
-			echo $b | findstr /R "[0-9]*\.[0-9]*\." > nul 2>&1 
-			#&& $sciVerStr = {$b}
-	}
+if (Test-Path $outputFile) {
+    Remove-Item $outputFile -Force
 }
 
-$lexVerStr="N/A"
-# for /F "delims=" %%a in ('findstr /L /C:"#define VERSION_LEXILLA " "..\..\lexilla\src\LexillaVersion.rc"') do (
-	# for %%b in (%%a) do (
-			# echo %%b | findstr /R "[0-9]*\.[0-9]*\." > nul 2>&1 && $lexVerStr=%%b
-	# )
-# )
+function Get-VersionFromFile {
+    param(
+        [string]$Path,
+        [string]$Pattern,
+        [string]$DefaultValue = 'N/A'
+    )
 
-$boostRegexVerStr="N/A"
-# for /F "delims=" %%a in ('findstr /L /C:"#define BOOST_LIB_VERSION " "..\..\boostregex\boost\version.hpp"') do (
-	# for %%b in (%%a) do (
-			# echo %%b | findstr /R "[0-9]*_[0-9]*\" > nul 2>&1 && $boostRegexVerStr=%%b
-	# )
-# )
+    if (-not (Test-Path $Path)) {
+        return $DefaultValue
+    }
 
-# At this point, we should have the quoted version strings collected:
-echo "Scintilla version detected: $sciVerStr"
-echo "Lexilla version detected: $lexVerStr"
-echo "Boost Regex version detected: $boostRegexVerStr"
+    foreach ($line in Get-Content $Path) {
+        if ($line -match $Pattern) {
+            return $Matches[1]
+        }
+    }
 
-# And finally create the output file:
-echo "// NppLibsVersion.h" > $outputFile
-echo "// - maintained by NppLibsVersionH-generator.bat" >> $outputFile
-echo "#define NPP_SCINTILLA_VERSION $sciVerStr" >> $outputFile
-echo "#define NPP_LEXILLA_VERSION $lexVerStr" >> $outputFile
-echo "#define NPP_BOOST_REGEX_VERSION $boostRegexVerStr" >> $outputFile
+    return $DefaultValue
+}
+
+$sciVerStr = Get-VersionFromFile `
+    -Path (Join-Path $PSScriptRoot '../../scintilla/win32/ScintRes.rc') `
+    -Pattern 'VERSION_SCINTILLA\s+"([^"]+)"'
+
+$lexVerStr = Get-VersionFromFile `
+    -Path (Join-Path $PSScriptRoot '../../lexilla/src/LexillaVersion.rc') `
+    -Pattern 'VERSION_LEXILLA\s+"([^"]+)"'
+
+$boostRegexVerStr = Get-VersionFromFile `
+    -Path (Join-Path $PSScriptRoot '../../boostregex/boost/version.hpp') `
+    -Pattern 'BOOST_LIB_VERSION\s+"([^"]+)"'
+
+$content = @"
+#ifndef NPPLIBSVERSION_H
+#define NPPLIBSVERSION_H
+// NppLibsVersion.h
+// - maintained by NppLibsVersionH-generator.ps1
+#define NPP_SCINTILLA_VERSION "$sciVerStr"
+#define NPP_LEXILLA_VERSION "$lexVerStr"
+#define NPP_BOOST_REGEX_VERSION "$boostRegexVerStr"
+
+#endif // NPPLIBSVERSION_H
+"@
+
+Set-Content `
+    -Path $outputFile `
+    -Value $content `
+    -Encoding ASCII `
+    -NoNewline
+
+Write-Host "Generated $outputFile"
+Write-Host "Scintilla : $sciVerStr"
+Write-Host "Lexilla   : $lexVerStr"
+Write-Host "BoostRegex: $boostRegexVerStr"
