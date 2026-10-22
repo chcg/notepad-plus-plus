@@ -110,21 +110,21 @@ int PluginsManager::loadPluginFromPath(const wchar_t *pluginFilePath)
 		static constexpr int binArchType = NppParameters::archType();
 		if (getBinaryArchitectureType(pluginFilePath) != binArchType)
 		{
-			const wchar_t* archErrMsg = L"Cannot load plugin.";
 			switch (binArchType)
 			{
 				case IMAGE_FILE_MACHINE_ARM64:
-					archErrMsg = L"Cannot load ARM64 plugin.";
+					throw std::wstring(L"Cannot load ARM64 plugin.");
 					break;
 				case IMAGE_FILE_MACHINE_I386:
-					archErrMsg = L"Cannot load 32-bit plugin.";
+					throw std::wstring(L"Cannot load 32-bit plugin.");
 					break;
 				case IMAGE_FILE_MACHINE_AMD64:
-					archErrMsg = L"Cannot load 64-bit plugin.";
+					throw std::wstring(L"Cannot load 64-bit plugin.");
+					break;
+				default:
+					throw std::wstring(L"Cannot load plugin.");
 					break;
 			}
-
-			throw wstring(archErrMsg);
 		}
 
         const DWORD dwFlags = GetProcAddress(GetModuleHandle(L"kernel32.dll"), "AddDllDirectory") != NULL ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
