@@ -229,7 +229,7 @@ CPDIR := cp -r
 RMDIR := rm -rf
 CP := cp
 RM := rm -f
-PREBUILD_EVENT_CMD := cd PowerEditor/src | ls -a
+PREBUILD_EVENT_CMD := pwsh -NoProfile -ExecutionPolicy Bypass -File "$(MAKEFILE_ABS_DIR)/../src/NppLibsVersionH-generator.ps1"
 normalize-path = $1
 else ifneq "$(wildcard $(dir $(SHELL))ls.exe)" ""
 # a Windows system with a proper shell
@@ -241,7 +241,7 @@ CPDIR := $(SHELL_DIRECTORY)cp.exe -r
 RMDIR := $(SHELL_DIRECTORY)rm.exe -rf
 CP := $(SHELL_DIRECTORY)cp.exe
 RM := $(SHELL_DIRECTORY)rm.exe -f
-PREBUILD_EVENT_CMD := cmd //C "$(MAKEFILE_ABS_DIR)/../src/NppLibsVersionH-generator.bat"
+PREBUILD_EVENT_CMD := pwsh -NoProfile -ExecutionPolicy Bypass -File "$(MAKEFILE_ABS_DIR)/../src/NppLibsVersionH-generator.ps1"
 normalize-path = $1
 else
 # a standard Windows system
@@ -250,7 +250,7 @@ CPDIR := xcopy /q /e /i /y
 RMDIR := rmdir /q /s
 CP := copy /y
 RM := del /q
-PREBUILD_EVENT_CMD := "$(MAKEFILE_ABS_DIR)\..\src\NppLibsVersionH-generator.bat"
+PREBUILD_EVENT_CMD := pwsh -NoProfile -ExecutionPolicy Bypass -File "$(MAKEFILE_ABS_DIR)/../src/NppLibsVersionH-generator.ps1"
 normalize-path = $(subst /,\,$1)
 endif
 

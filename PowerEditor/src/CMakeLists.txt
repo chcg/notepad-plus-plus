@@ -415,7 +415,7 @@ find_library(LEXILLA_STATIC_LIBRARY
 )
 
 execute_process(
-    COMMAND cmd /C "cd ${CMAKE_SOURCE_DIR} && NppLibsVersionH-generator.bat"
+    COMMAND pwsh -NoProfile -ExecutionPolicy Bypass -File "NppLibsVersionH-generator.ps1"
     RESULT_VARIABLE pre-build-result
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
