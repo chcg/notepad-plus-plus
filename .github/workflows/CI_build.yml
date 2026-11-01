@@ -318,7 +318,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v3
@@ -406,37 +406,42 @@ jobs:
             arch: i686
             configuration: Release
             compiler: gcc
+            make_package: make
+            make_command: make
           - msys: MINGW32
             env: i686
             arch: i686
             configuration: Debug
             compiler: gcc
-          - msys: MINGW64
-            env: x86_64
+            make_package: make
+            make_command: make
+          - msys: UCRT64
+            env: ucrt-x86_64
             arch: x86_64
             configuration: Release
             compiler: gcc
-          - msys: MINGW64
-            env: x86_64
+            make_package: mingw-w64-x86_64-make
+            make_command: mingw32-make
+          - msys: UCRT64
+            env: ucrt-x86_64
             arch: x86_64
             configuration: Debug
             compiler: gcc
+            make_package: mingw-w64-x86_64-make
+            make_command: mingw32-make
           - msys: CLANG64
             env: clang-x86_64
             arch: x86_64
             configuration: Release
             compiler: clang
-          - msys: MINGW64
-            env: clang-aarch64
-            arch: clang-aarch64
-            configuration: Release
-            compiler: gcc
+            make_package: mingw-w64-clang-x86_64-make
+            make_command: mingw32-make
 
     name: ${{ matrix.msys }} - ${{ matrix.configuration }}
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Modify resource.h N++ version to avoid confusion
       working-directory: PowerEditor\src\
@@ -450,9 +455,10 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.msys }}
-        install: mingw-w64-${{ matrix.env }}-${{ matrix.compiler }} mingw-w64-${{ matrix.env }}-make
+        install: mingw-w64-${{ matrix.env }}-${{ matrix.compiler }} ${{ matrix.make_package }}
         update: true
         release: false
+        suppress-deprecation-warnings: msystem-mingw32
 
     - name: Make n++ exe
       working-directory: .\
@@ -467,7 +473,7 @@ jobs:
         Write-Output (((${{ matrix.compiler }} --version) | select-object -first 1) + " " + (${{ matrix.compiler }} -dumpmachine))
         Write-Output (mingw32-make --version) | select-object -first 1
         Write-Output (sh --version) | select-object -first 1
-        mingw32-make -f PowerEditor\gcc\makefile
+        & '${{ matrix.make_command }}' -f PowerEditor\gcc\makefile
 
     - name: Archive artifacts for ${{ matrix.msys }} / ${{ matrix.configuration }}
       uses: actions/upload-artifact@v7
@@ -488,7 +494,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Modify resource.h N++ version to avoid confusion
       working-directory: PowerEditor\src\
@@ -567,7 +573,7 @@ jobs:
         build_platform: ["x86_64", i686, aarch64]
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Install packages via apt
       run: |
@@ -600,7 +606,7 @@ jobs:
         build_platform: ["Unix Makefiles"]
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Install packages via apt
       run: |
